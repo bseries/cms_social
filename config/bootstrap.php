@@ -10,17 +10,25 @@
  * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  */
 
-// use lithium\g11n\Message;
-// use cms_core\extensions\cms\Modules;
-// use cms_core\extensions\cms\Features;
+use lithium\g11n\Message;
+use cms_core\extensions\cms\Modules;
+use cms_core\extensions\cms\Settings;
 use cms_media\models\Media;
 use cms_media\models\MediaVersions;
 use cms_social\models\Vimeo;
 
-// extract(Message::aliases());
+extract(Message::aliases());
 
-// Modules::register('cms_media', 'files', ['title' => $t('Files')]);
-// Features::register('enableRegenerateVersions', false);
+Modules::register('cms_social', 'stream', ['title' => $t('Social Stream')]);
+
+Settings::register('cms_social', 'service.tumblr.default.username');
+Settings::register('cms_social', 'service.vimeo.default.username');
+Settings::register('cms_social', 'service.facebook.default.pageUrl');
+Settings::register('cms_social', 'service.twitter.default.username');
+Settings::register('cms_social', 'service.twitter.default.consumerKey');
+Settings::register('cms_social', 'service.twitter.default.consumerSecret');
+Settings::register('cms_social', 'service.twitter.default.accessToken');
+Settings::register('cms_social', 'service.twitter.default.accessTokenSecret');
 
 // Registers Media and MediaVersions schemes.
 

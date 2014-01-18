@@ -13,7 +13,7 @@
 namespace cms_social\models;
 
 use lithium\storage\Cache;
-use Guzzle\Http\Client;
+use TwitterOAuth as Client;
 
 class Twitter extends \cms_core\models\Base {
 
@@ -21,6 +21,15 @@ class Twitter extends \cms_core\models\Base {
 		'connection' => false
 	);
 
+	protected static $_connection = null;
+
+	public static function init() {
+	}
+
+	protected static function _settings() {
+	}
+
+	/*
 	public static function first($id) {
 		$cacheKey = 'vimeo_videos_' . $id;
 
@@ -37,7 +46,9 @@ class Twitter extends \cms_core\models\Base {
 		Cache::write('default', $cacheKey, $result);
 		return $result;
 	}
+	 */
 
+	/*
 	public static function latest($username) {
 		$cacheKey = 'vimeo_videos_latest_' . $username;
 
@@ -50,25 +61,28 @@ class Twitter extends \cms_core\models\Base {
 		Cache::write('default', $cacheKey, $result, '+1 day');
 		return $result;
 	}
+	 */
 
-	// @fixme Cache this.
-	public static function all($username) {
-		return static::_api($username . '/videos');
+	public static function all() {
+		return static::_api('/statuses/user_timeline');
 	}
 
-	protected static function _api($url) {
-		$client = new Client('https://vimeo.com/api/v2/');
-		$request = $client->get($url . '.json');
+	protected static function _api($url, $params = []) {
+		$config = Environment::get('service.twitter');
 
-		try {
-			$response = $request->send();
-		} catch (\Exception $e) {
-			// var_dump($e->getMessage());
-			return false;
-		}
-		return json_decode($response->getBody(), true);
+		$connection = new Client(
+			$config['consumerKey'],
+			$config['consumerSecret'],
+			$config['accessToken'],
+			$config['accessTokenSecret']
+		);
+
+		$params['screen_name'] = $config['username'];
+
+		return $connection->get($url, $params);
 	}
 }
 
+Twitter::init();
 
 ?>
