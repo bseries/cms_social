@@ -16,6 +16,18 @@ use cms_core\extensions\cms\Settings;
 use cms_media\models\Media;
 use cms_media\models\MediaVersions;
 use cms_social\models\Vimeo;
+use lithium\core\Libraries;
+
+Libraries::add('twitteroauth', [
+	'path' => dirname(__DIR__) . '/libraries/twitteroauth/twitteroauth',
+	'prefix' => false,
+	'transform' => function($class, $config) {
+		if ($class != 'TwitterOAuth') {
+			return false;
+		}
+		return $config['path'] . '/twitteroauth.php';
+	}
+]);
 
 extract(Message::aliases());
 

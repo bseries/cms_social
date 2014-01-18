@@ -21,14 +21,6 @@ class Twitter extends \cms_core\models\Base {
 		'connection' => false
 	);
 
-	protected static $_connection = null;
-
-	public static function init() {
-	}
-
-	protected static function _settings() {
-	}
-
 	/*
 	public static function first($id) {
 		$cacheKey = 'vimeo_videos_' . $id;
@@ -63,26 +55,27 @@ class Twitter extends \cms_core\models\Base {
 	}
 	 */
 
-	public static function all() {
-		return static::_api('/statuses/user_timeline');
+	public static function all(array $config) {
+		return static::_api('/statuses/user_timeline', $config, [
+			'trim_user' => true,
+			// 'exclude_replies' => true
+		]);
 	}
 
-	protected static function _api($url, $params = []) {
-		$config = Environment::get('service.twitter');
-
+	protected static function _api($url, array $config, array $params = []) {
 		$connection = new Client(
 			$config['consumerKey'],
 			$config['consumerSecret'],
 			$config['accessToken'],
 			$config['accessTokenSecret']
 		);
+		$connection->decode_json = false;
 
 		$params['screen_name'] = $config['username'];
 
-		return $connection->get($url, $params);
+		$result = $connection->get($url, $params);
+		return json_decode($result, true);
 	}
 }
-
-Twitter::init();
 
 ?>
