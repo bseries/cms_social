@@ -39,12 +39,17 @@ Modules::register('cms_social', 'stream', ['title' => $t('Social Stream')]);
 
 Settings::register('cms_social', 'service.tumblr.default.username');
 Settings::register('cms_social', 'service.vimeo.default.username');
+Settings::register('cms_social', 'service.facebook.default.appId');
+Settings::register('cms_social', 'service.facebook.default.appSecret');
 Settings::register('cms_social', 'service.facebook.default.pageUrl');
 Settings::register('cms_social', 'service.twitter.default.username');
 Settings::register('cms_social', 'service.twitter.default.consumerKey');
 Settings::register('cms_social', 'service.twitter.default.consumerSecret');
 Settings::register('cms_social', 'service.twitter.default.accessToken');
 Settings::register('cms_social', 'service.twitter.default.accessTokenSecret');
+Settings::register('cms_social', 'service.instagram.default.username');
+Settings::register('cms_social', 'service.instagram.default.userId');
+Settings::register('cms_social', 'service.instagram.default.accessToken');
 
 // Registers Media and MediaVersions schemes.
 
