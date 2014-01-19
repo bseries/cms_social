@@ -1,3 +1,6 @@
 [submodule "libraries/twitteroauth"]
 	path = libraries/twitteroauth
 	url = git@github.com:abraham/twitteroauth.git
+[submodule "libraries/facebook"]
+	path = libraries/facebook
+	url = git://github.com/facebook/facebook-php-sdk.git

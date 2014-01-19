@@ -28,6 +28,10 @@ Libraries::add('twitteroauth', [
 		return $config['path'] . '/twitteroauth.php';
 	}
 ]);
+Libraries::add('facebook', array(
+	'path' => dirname(__DIR__) . '/libraries/facebook/src',
+	'bootstrap' => 'facebook.php'
+));
 
 extract(Message::aliases());
 
