@@ -28,7 +28,9 @@ class Stream extends \cms_core\models\Base {
 	];
 
 	public function body($entity) {
-		return $this->raw($entity, 'text');
+		if ($entity->type === 'tweet') {
+			return $this->raw($entity, 'text');
+		}
 	}
 
 	public function raw($entity, $path) {
