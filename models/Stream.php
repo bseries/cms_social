@@ -27,6 +27,10 @@ class Stream extends \cms_core\models\Base {
 		'cms_core\extensions\data\behavior\Timestamp'
 	];
 
+	public function body($entity) {
+		return $this->raw($entity, 'text');
+	}
+
 	public function raw($entity, $path) {
 		$result = json_decode($entity->raw, true);
 		return current(Set::extract($result, '/' . str_replace('.', '/', $path)));
