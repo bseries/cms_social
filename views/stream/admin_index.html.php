@@ -20,7 +20,7 @@ $dateFormatter = new IntlDateFormatter(
 				<tr>
 					<td><?= $t('publ.?') ?>
 					<td><?= $t('Type') ?>
-					<td><?= $t('Excerpt') ?>
+					<td><?= $t('Title') . '/' . $t('Excerpt') ?>
 					<td><?= $t('Pubdate') ?>
 					<td><?= $t('Created') ?>
 					<td>
@@ -30,8 +30,8 @@ $dateFormatter = new IntlDateFormatter(
 				<tr>
 					<td>
 						<?= ($item->is_published ? '✓' : '╳') ?>
-					<td><?= $item->type ?>
-					<td><?= $item->excerpt ?>
+					<td><?= $item->type() ?>
+					<td><?= $item->title ?: $item->excerpt ?>
 					<td>
 						<?php $date = DateTime::createFromFormat('Y-m-d H:i:s', $item->published) ?>
 						<time datetime="<?= $date->format(DateTime::W3C) ?>"><?= $dateFormatter->format($date) ?></time>

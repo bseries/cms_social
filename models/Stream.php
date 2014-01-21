@@ -13,8 +13,8 @@
 namespace cms_social\models;
 
 use cms_social\models\Twitter;
+use lithium\util\Inflector;
 use cms_core\extensions\cms\Settings;
-use textual\Modulation as Textual;
 use lithium\util\Set;
 
 class Stream extends \cms_core\models\Base {
@@ -38,28 +38,38 @@ class Stream extends \cms_core\models\Base {
 		return current(Set::extract($result, '/' . str_replace('.', '/', $path)));
 	}
 
+	public function type($entity, $separator = '/') {
+		list(, $type) = explode('\models\\', $entity->model);
+		return str_replace('_', $separator, Inflector::underscore(substr($type, 0, -1)));
+	}
+
 	public static function poll($frequency = null) {
 		foreach (Settings::read('service.twitter') as $name => $config) {
 			$results = Twitter::all($config);
-			//var_dump($r);die;
+			//var_dump($results);die;
+			//
 			foreach ($results as $result) {
+				if ($result->retweeted() || $result->replied()) {
+					continue;
+				}
 				$exists = Stream::find('count', [
 					'conditions' => [
-						'model' => 'cms_social\models\Twitter',
-						'foreign_key' => $result['id'],
-						'type' => 'tweet'
+						'model' => $result->model(),
+						'foreign_key' => $result->id(),
 					]
 				]);
 				if ($exists) {
 					continue;
 				}
 				$item = Stream::create([
-					'excerpt' => Textual::limit($result['text'], 50),
-					'model' => 'cms_social\models\Twitter',
-					'foreign_key' => $result['id'],
-					'type' => 'tweet',
-					'raw' => json_encode($result),
-					'published' => date('Y-m-d H:i:s', strtotime($result['created_at'])),
+					'author' => $config['username'],
+					// Tweets don't have titles but excerpts.
+					'excerpt' => $result->excerpt(),
+					'body' => $result->body(),
+					'model' => $result->model(),
+					'foreign_key' => $result->id(),
+					'raw' => json_encode($result->raw),
+					'published' => $result->published()
 				]);
 				$item->save();
 			}

@@ -14,6 +14,7 @@ namespace cms_social\models;
 
 use lithium\storage\Cache;
 use TwitterOAuth as Client;
+use cms_social\models\TwitterTweets;
 
 class Twitter extends \cms_core\models\Base {
 
@@ -56,10 +57,14 @@ class Twitter extends \cms_core\models\Base {
 	 */
 
 	public static function all(array $config) {
-		return static::_api('/statuses/user_timeline', $config, [
-			'trim_user' => true,
+		$results = static::_api('/statuses/user_timeline', $config, [
+			// 'trim_user' => true,
 			// 'exclude_replies' => true
 		]);
+		foreach ($results as &$result) {
+			$result = TwitterTweets::create(['raw' => $result]);
+		}
+		return $results;
 	}
 
 	protected static function _api($url, array $config, array $params = []) {
