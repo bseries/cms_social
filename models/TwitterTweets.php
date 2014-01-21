@@ -15,6 +15,7 @@ namespace cms_social\models;
 use textual\Modulation as Textual;
 use lithium\util\Set;
 
+// Needs untruncated, untrimmed raw data from Twitter API.
 class TwitterTweets extends \cms_core\models\Base {
 
 	protected $_meta = array(
@@ -23,6 +24,14 @@ class TwitterTweets extends \cms_core\models\Base {
 
 	public function id($entity) {
 		return $entity->raw['id'];
+	}
+
+	public function author($entity) {
+		return $entity->raw['user']['screen_name'];
+	}
+
+	public function url($entity) {
+		return 'https://twitter.com/' . $entity->raw['user']['screen_name'] . '/status/' . $entity->raw['id'];
 	}
 
 	public function retweeted($entity) {

@@ -46,32 +46,34 @@ class Stream extends \cms_core\models\Base {
 	public static function poll($frequency = null) {
 		foreach (Settings::read('service.twitter') as $name => $config) {
 			$results = Twitter::all($config);
-			//var_dump($results);die;
+			// var_dump($results);die;
 			//
 			foreach ($results as $result) {
 				if ($result->retweeted() || $result->replied()) {
 					continue;
 				}
-				$exists = Stream::find('count', [
+				$item = Stream::find('first', [
 					'conditions' => [
 						'model' => $result->model(),
 						'foreign_key' => $result->id(),
 					]
 				]);
-				if ($exists) {
-					continue;
+				if (!$item) {
+					$item = Stream::create([
+						'model' => $result->model(),
+						'foreign_key' => $result->id(),
+					]);
 				}
-				$item = Stream::create([
-					'author' => $config['username'],
+				$data = [
+					'author' => $result->author(),
+					'url' => $result->url(),
 					// Tweets don't have titles but excerpts.
 					'excerpt' => $result->excerpt(),
 					'body' => $result->body(),
-					'model' => $result->model(),
-					'foreign_key' => $result->id(),
 					'raw' => json_encode($result->raw),
 					'published' => $result->published()
-				]);
-				$item->save();
+				];
+				$item->save($data);
 			}
 		}
 	}
