@@ -92,11 +92,6 @@ class TwitterTweets extends \cms_core\models\Base {
 	public function published($entity) {
 		return date('Y-m-d H:i:s', strtotime($entity->raw['created_at']));
 	}
-
-//	public function raw($entity, $path) {
-
-//		$results = Set::extract($entity->raw, '/' . str_replace('.', '/', $path)));
-//	}
 }
 
 ?>

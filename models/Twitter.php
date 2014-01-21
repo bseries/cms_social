@@ -22,40 +22,6 @@ class Twitter extends \cms_core\models\Base {
 		'connection' => false
 	);
 
-	/*
-	public static function first($id) {
-		$cacheKey = 'vimeo_videos_' . $id;
-
-		if ($cached = Cache::read('default', $cacheKey)) {
-			return $cached;
-		}
-		$result = static::_api('video/' . $id);
-
-		if (!$result) {
-			return false;
-		}
-		$result = static::create(array_shift($result));
-
-		Cache::write('default', $cacheKey, $result);
-		return $result;
-	}
-	 */
-
-	/*
-	public static function latest($username) {
-		$cacheKey = 'vimeo_videos_latest_' . $username;
-
-		if ($cached = Cache::read('default', $cacheKey)) {
-			return $cached;
-		}
-		$results = static::_api($username . '/videos');
-
-		$result = static::create(array_shift($results));
-		Cache::write('default', $cacheKey, $result, '+1 day');
-		return $result;
-	}
-	 */
-
 	public static function all(array $config) {
 		$results = static::_api('/statuses/user_timeline', $config, [
 			// 'trim_user' => true,

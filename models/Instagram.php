@@ -12,9 +12,8 @@
 
 namespace cms_social\models;
 
-use lithium\core\Environment;
-use lithium\storage\Cache;
 use Guzzle\Http\Client;
+use cms_social\models\InstagramMedia;
 
 class Instagram extends \cms_core\models\Base {
 
@@ -22,53 +21,31 @@ class Instagram extends \cms_core\models\Base {
 		'connection' => false
 	);
 
-	public static function latestImage() {
-		$service = Environment::get('service.instagram');
-		$cacheKey = 'instagram_latest_image_' . md5(serialize($service));
+	// Gets all media.
+	// @link http://instagram.com/developer/endpoints/users/#get_users_media_recent
+	public static function all(array $config) {
+		$results = static::_api("users/{$config['userId']}/media/recent", $config);
 
-		if ($cached = Cache::read('default', $cacheKey)) {
-			return $cached;
-		}
-		$results = static::_api("users/{$service['userId']}/media/recent");
-		$result = static::create(array_shift($results));
-		Cache::write('default', $cacheKey, $result);
-		return $result;
-	}
-
-	public static function latestImages($limit = null) {
-		$service = Environment::get('service.instagram');
-		$cacheKey = 'instagram_latest_image_' . md5(serialize($service) . $limit);
-
-		if ($cached = Cache::read('default', $cacheKey)) {
-			return $cached;
-		}
-		$results =  static::_api("users/{$service['userId']}/media/recent");
-
-		if ($limit) {
-			$results = array_slice($results, 0, $limit);
-		}
 		foreach ($results as &$result) {
-			$result = static::create($result);
+			$result = InstagramMedia::create(['raw' => $result]);
 		}
-		Cache::write('default', $cacheKey, $results);
+
 		return $results;
 	}
 
-	protected static function _api($url) {
-		$service = Environment::get('service.instagram');
-
+	protected static function _api($url, array $config, array $params = []) {
 		$client = new Client('https://api.instagram.com/v1/');
 		$request = $client->get($url);
 
-		$request->getQuery()->set('access_token', $service['accessToken']);
-		//$request->addHeader('Accept-Charset', 'utf-8');
+		$request->getQuery()->set('access_token', $config['accessToken']);
+		// $request->addHeader('Accept-Charset', 'utf-8');
 
 		try {
 			$response = $request->send();
 		} catch (\Exception $e) {
 			return false;
 		}
-		$result = json_decode($r= $response->getBody(), true);
+		$result = json_decode($response->getBody(), true);
 		return $result['data'];
 	}
 }
