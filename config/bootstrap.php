@@ -11,7 +11,7 @@
  */
 
 use lithium\g11n\Message;
-use cms_core\extensions\cms\Modules;
+use cms_core\extensions\cms\Panes;
 use cms_core\extensions\cms\Settings;
 use cms_media\models\Media;
 use cms_media\models\MediaVersions;
@@ -35,7 +35,11 @@ Libraries::add('facebook', array(
 
 extract(Message::aliases());
 
-Modules::register('cms_social', 'stream', ['title' => $t('Social Stream')]);
+Panes::register('cms_social', 'stream', [
+	'title' => $t('Social Stream'),
+	'group' => Panes::GROUP_AUTHORING,
+	'url' => ['controller' => 'stream', 'library' => 'cms_social', 'admin' => true]
+]);
 
 Settings::register('cms_social', 'service.tumblr.default.username');
 Settings::register('cms_social', 'service.vimeo.default.username');
