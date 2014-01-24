@@ -3,8 +3,18 @@
 $dateFormatter = new IntlDateFormatter(
 	'de_DE',
 	IntlDateFormatter::SHORT,
-	IntlDateFormatter::SHORT
+	IntlDateFormatter::SHORT,
+	'Europe/Berlin'
 );
+
+$timeElementForDate = function($value) use ($dateFormatter) {
+	$date = DateTime::createFromFormat('Y-m-d H:i:s', $value);
+
+	$standard = $date->format(DateTime::W3C);
+	$display = $dateFormatter->format($date);
+
+	return '<time datetime="' . $standard . '">' . $display . '</time>';
+};
 
 ?>
 <article class="view-<?= $this->_config['controller'] . '-' . $this->_config['template'] ?>">
