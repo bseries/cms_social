@@ -24,7 +24,7 @@ class Stream extends \cms_core\models\Base {
 		'source' => 'social_stream'
 	);
 
-	protected $_actsAs = [
+	protected static $_actsAs = [
 		'cms_core\extensions\data\behavior\Timestamp'
 	];
 
