@@ -14,7 +14,6 @@ namespace cms_social\models;
 
 use lithium\core\Environment;
 use lithium\storage\Cache;
-use Guzzle\Http\Client;
 use Facebook as FacebookClient;
 
 class Facebook extends \cms_core\models\Base {
