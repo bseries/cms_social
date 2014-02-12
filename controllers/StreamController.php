@@ -16,7 +16,9 @@ use cms_social\models\Stream;
 use lithium\g11n\Message;
 use li3_flash_message\extensions\storage\FlashMessage;
 
-class StreamController extends \lithium\action\Controller {
+class StreamController extends \cms_core\controllers\BaseController {
+
+	use \cms_core\controllers\AdminPublishTrait;
 
 	public function admin_index() {
 		$data = Stream::find('all', [
@@ -30,26 +32,6 @@ class StreamController extends \lithium\action\Controller {
 
 		Stream::poll();
 		FlashMessage::write($t('Successfully polled.'));
-
-		return $this->redirect(['action' => 'index', 'library' => 'cms_social']);
-	}
-
-	public function admin_publish() {
-		extract(Message::aliases());
-
-		$item = Stream::find($this->request->id);
-		$item->save(['is_published' => true]);
-		FlashMessage::write($t('Successfully published.'));
-
-		return $this->redirect(['action' => 'index', 'library' => 'cms_social']);
-	}
-
-	public function admin_unpublish() {
-		extract(Message::aliases());
-
-		$item = Stream::find($this->request->id);
-		$item->save(['is_published' => false]);
-		FlashMessage::write($t('Successfully unpublished.'));
 
 		return $this->redirect(['action' => 'index', 'library' => 'cms_social']);
 	}
