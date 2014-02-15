@@ -31,7 +31,7 @@ class StreamController extends \cms_core\controllers\BaseController {
 		extract(Message::aliases());
 
 		Stream::poll();
-		FlashMessage::write($t('Successfully polled.'));
+		FlashMessage::write($t('Successfully polled.'), ['level' => 'success']);
 
 		return $this->redirect(['action' => 'index', 'library' => 'cms_social']);
 	}
