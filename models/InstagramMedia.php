@@ -39,10 +39,10 @@ class InstagramMedia extends \cms_core\models\Base {
 	}
 
 	public function body($entity) {
-		$images = $entity->raw['images'];
+		$image = $entity->raw['images']['standard_resolution'];
 
 		$html = '';
-		$html .= "<img src=\"{$images['standard_resolution']['url']}\">";
+		$html .= "<img width=\"{$image['width']}\" height=\"{$image['height']}\" src=\"{$image['url']}\">";
 
 		return $html;
 	}

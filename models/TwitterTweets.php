@@ -79,7 +79,7 @@ class TwitterTweets extends \cms_core\models\Base {
 					$text = str_replace(
 						$item['url'],
 						// "<img src=\"{$item['media_url_https']}\">",
-						"<a href=\"{$item['media_url_https']}\ target=\"new\">{$item['display_url']}<a>",
+						"<a href=\"{$item['media_url_https']}\" target=\"new\">{$item['display_url']}</a>",
 						$text
 					);
 				}

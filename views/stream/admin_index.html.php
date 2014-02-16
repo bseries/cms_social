@@ -8,7 +8,7 @@ $dateFormatter = new IntlDateFormatter(
 );
 
 $timeElementForDate = function($value) use ($dateFormatter) {
-	$date = DateTime::createFromFormat('Y-m-d H:i:s', $value);
+	$date = DateTime::createFromFormat('Y-m-d H:i:s', $value, new DateTimeZone('UTC'));
 
 	$standard = $date->format(DateTime::W3C);
 	$display = $dateFormatter->format($date);
