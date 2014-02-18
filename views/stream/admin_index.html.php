@@ -20,10 +20,6 @@ $timeElementForDate = function($value) use ($dateFormatter) {
 <article class="view-<?= $this->_config['controller'] . '-' . $this->_config['template'] ?>">
 	<h1 class="alpha"><?= $t('Social Stream') ?></h1>
 
-	<nav class="actions">
-		<?= $this->html->link($t('poll to refresh stream'), ['action' => 'poll', 'library' => 'cms_social'], ['class' => 'button']) ?>
-	</nav>
-
 	<?php if ($data->count()): ?>
 		<table>
 			<thead>

@@ -38,7 +38,11 @@ extract(Message::aliases());
 Panes::register('cms_social', 'stream', [
 	'title' => $t('Social Stream'),
 	'group' => Panes::GROUP_AUTHORING,
-	'url' => ['controller' => 'stream', 'library' => 'cms_social', 'admin' => true]
+	'url' => $base = ['controller' => 'stream', 'library' => 'cms_social', 'admin' => true],
+	'actions' => [
+		$t('Stream') => ['action' => 'index'] + $base,
+		$t('Refresh') => ['action' => 'poll'] + $base
+	]
 ]);
 
 Settings::register('cms_social', 'service.tumblr.default.username');
