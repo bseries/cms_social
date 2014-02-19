@@ -18,6 +18,8 @@ use li3_flash_message\extensions\storage\FlashMessage;
 
 class StreamController extends \cms_core\controllers\BaseController {
 
+	protected $_model = '\cms_social\models\Stream';
+
 	use \cms_core\controllers\AdminPublishTrait;
 
 	public function admin_index() {

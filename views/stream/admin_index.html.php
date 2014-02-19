@@ -18,30 +18,29 @@ $timeElementForDate = function($value) use ($dateFormatter) {
 
 ?>
 <article class="view-<?= $this->_config['controller'] . '-' . $this->_config['template'] ?>">
-	<h1 class="alpha"><?= $t('Social Stream') ?></h1>
+	<h1 class="alpha"><?= $this->title($t('Social Stream')) ?></h1>
 
 	<?php if ($data->count()): ?>
 		<table>
 			<thead>
 				<tr>
-					<td><?= $t('publ.?') ?>
+					<td class="flag"><?= $t('publ.?') ?>
 					<td><?= $t('Type') ?>
-					<td><?= $t('Title') . '/' . $t('Excerpt') ?>
-					<td><?= $t('Pubdate') ?>
-					<td><?= $t('Created') ?>
+					<td class="emphasize"><?= $t('Title') . '/' . $t('Excerpt') ?>
+					<td class="date published"><?= $t('Pubdate') ?>
+					<td class="date created"><?= $t('Created') ?>
 					<td>
 			</thead>
 			<tbody>
 				<?php foreach ($data as $item): ?>
 				<tr>
-					<td>
-						<?= ($item->is_published ? '✓' : '╳') ?>
+					<td class="flag"><?= ($item->is_published ? '✓' : '╳') ?>
 					<td><?= $item->type() ?>
-					<td><?= $item->title ?: $item->excerpt ?>
-					<td>
+					<td class="emphasize"><?= $item->title ?: $item->excerpt ?>
+					<td class="date published">
 						<?php $date = DateTime::createFromFormat('Y-m-d H:i:s', $item->published) ?>
 						<time datetime="<?= $date->format(DateTime::W3C) ?>"><?= $dateFormatter->format($date) ?></time>
-					<td>
+					<td class="date created">
 						<?php $date = DateTime::createFromFormat('Y-m-d H:i:s', $item->created) ?>
 						<time datetime="<?= $date->format(DateTime::W3C) ?>"><?= $dateFormatter->format($date) ?></time>
 					<td>
