@@ -53,21 +53,21 @@ class TwitterTweets extends \cms_core\models\Base {
 		foreach ($entities['hashtags'] as $item) {
 			$text = str_replace(
 				'#' . $item['text'],
-				'<a href="https://search.twitter.com/search?q=' . $item['text'] . '" target="new">' . '#' . $item['text'] . '</a>',
+				'<a class="tweet-hashtag" href="https://search.twitter.com/search?q=' . $item['text'] . '" target="new">' . '#' . $item['text'] . '</a>',
 				$text
 			);
 		}
 		foreach ($entities['urls'] as $item) {
 			$text = str_replace(
 				$item['url'],
-				"<a href=\"{$item['expanded_url']}\" target=\"new\">{$item['display_url']}</a>",
+				"<a class=\"tweet-url\" href=\"{$item['expanded_url']}\" target=\"new\">" . Textual::limit($item['display_url'], 21) . "</a>",
 				$text
 			);
 		}
 		foreach ($entities['user_mentions'] as $item) {
 			$text = str_replace(
 				'@' . $item['screen_name'],
-				"<a href=\"https://twitter.com/{$item['screen_name']}\" target=\"new\">@{$item['screen_name']}</a>",
+				"<a class=\"tweet-user-mention\" href=\"https://twitter.com/{$item['screen_name']}\" target=\"new\">@{$item['screen_name']}</a>",
 				$text
 			);
 		}
@@ -79,7 +79,7 @@ class TwitterTweets extends \cms_core\models\Base {
 					$text = str_replace(
 						$item['url'],
 						// "<img src=\"{$item['media_url_https']}\">",
-						"<a href=\"{$item['media_url_https']}\" target=\"new\">{$item['display_url']}</a>",
+						"<a class=\"tweet-media\" href=\"{$item['media_url_https']}\" target=\"new\">{$item['display_url']}</a>",
 						$text
 					);
 				}
