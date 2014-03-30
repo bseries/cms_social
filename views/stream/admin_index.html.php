@@ -1,52 +1,39 @@
-<?php
-
-$dateFormatter = new IntlDateFormatter(
-	'de_DE',
-	IntlDateFormatter::SHORT,
-	IntlDateFormatter::SHORT,
-	'Europe/Berlin'
-);
-
-$timeElementForDate = function($value) use ($dateFormatter) {
-	$date = DateTime::createFromFormat('Y-m-d H:i:s', $value, new DateTimeZone('UTC'));
-
-	$standard = $date->format(DateTime::W3C);
-	$display = $dateFormatter->format($date);
-
-	return '<time datetime="' . $standard . '">' . $display . '</time>';
-};
-
-?>
-<article class="view-<?= $this->_config['controller'] . '-' . $this->_config['template'] ?>">
+<article class="view-<?= $this->_config['controller'] . '-' . $this->_config['template'] ?> use-list">
 	<h1 class="alpha"><?= $this->title($t('Social Stream')) ?></h1>
 
 	<?php if ($data->count()): ?>
 		<table>
 			<thead>
 				<tr>
-					<td class="flag"><?= $t('publ.?') ?>
-					<td><?= $t('Type') ?>
-					<td class="emphasize"><?= $t('Title') . '/' . $t('Excerpt') ?>
-					<td class="date published"><?= $t('Pubdate') ?>
-					<td class="date created"><?= $t('Created') ?>
-					<td>
+					<td data-sort="is-published" class="flag list-sort"><?= $t('publ.?') ?>
+					<td data-sort="type" class="type list-sort"><?= $t('Type') ?>
+					<td data-sort="title" class="emphasize title list-sort"><?= $t('Title') . '/' . $t('Excerpt') ?>
+					<td data-sort="published" class="date published list-sort desc"><?= $t('Pubdate') ?>
+					<td data-sort="created" class="date created"><?= $t('Created') ?>
+					<td class="actions">
+						<?= $this->form->field('search', [
+							'type' => 'search',
+							'label' => false,
+							'placeholder' => $t('Filter'),
+							'class' => 'list-search'
+						]) ?>
 			</thead>
-			<tbody>
+			<tbody class="list">
 				<?php foreach ($data as $item): ?>
 				<tr>
-					<td class="flag"><?= ($item->is_published ? '✓' : '╳') ?>
-					<td><?= $item->type() ?>
-					<td class="emphasize"><?= $item->title ?: $item->excerpt ?>
+					<td class="flag is-published"><?= ($item->is_published ? '✓' : '╳') ?>
+					<td class="type"><?= $item->type() ?>
+					<td class="emphasize title"><?= $item->title ?: $item->excerpt ?>
 					<td class="date published">
-						<?php $date = DateTime::createFromFormat('Y-m-d H:i:s', $item->published) ?>
-						<time datetime="<?= $date->format(DateTime::W3C) ?>"><?= $dateFormatter->format($date) ?></time>
+						<time datetime="<?= $this->date->format($item->published, 'w3c') ?>">
+							<?= $this->date->format($item->published, 'date') ?>
+						</time>
 					<td class="date created">
-						<?php $date = DateTime::createFromFormat('Y-m-d H:i:s', $item->created) ?>
-						<time datetime="<?= $date->format(DateTime::W3C) ?>"><?= $dateFormatter->format($date) ?></time>
-					<td>
-						<nav class="actions">
-							<?= $this->html->link($item->is_published ? $t('unpublish') : $t('publish'), ['id' => $item->id, 'action' => $item->is_published ? 'unpublish': 'publish', 'library' => 'cms_social'], ['class' => 'button']) ?>
-						</nav>
+						<time datetime="<?= $this->date->format($item->created, 'w3c') ?>">
+							<?= $this->date->format($item->created, 'date') ?>
+						</time>
+					<td class="actions">
+						<?= $this->html->link($item->is_published ? $t('unpublish') : $t('publish'), ['id' => $item->id, 'action' => $item->is_published ? 'unpublish': 'publish', 'library' => 'cms_social'], ['class' => 'button']) ?>
 				<?php endforeach ?>
 			</tbody>
 		</table>
