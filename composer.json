@@ -1,0 +1,24 @@
+{
+    "name": "atelierdisko/cms_social",
+    "description": "Social module for bureau.",
+    "homepage": "http://atelierdisko.de",
+    "type": "lithium-library",
+    "license": "proprietary",
+    "authors": {
+      "name": "Atelier Disko",
+      "homepage": "http://atelierdisko.de"
+    },
+    "require": {
+        "php": ">=5.5.0",
+        "atelierdisko/cms_core": "dev-master",
+        "atelierdisko/cms_media": "dev-master",
+        "uor/li3_flash_message": "dev-master",
+        "guzzlehttp/guzzle": "3.8.*",
+        "unionofrad/lithium": "dev-dev",
+        "composer/installers": "~1.0"
+    },
+    "repositories": [
+      { "type": "vcs", "url": "git@bitbucket.org:atelierdisko/cms_core.git" },
+      { "type": "vcs", "url": "git@bitbucket.org:atelierdisko/cms_media.git" }
+    ]
+}
