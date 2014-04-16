@@ -19,7 +19,8 @@
         "unionofrad/lithium": "dev-dev",
         "composer/installers": "~1.0",
         "facebook/php-sdk": "3.2.*",
-        "abraham/twitteroauth": "1.0"
+        "abraham/twitteroauth": "1.0",
+        "davidpersson/textual": "1.*"
     },
     "repositories": [
       { "type": "vcs", "url": "git@bitbucket.org:atelierdisko/cms_core.git" },
