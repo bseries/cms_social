@@ -17,8 +17,8 @@ extract(Message::aliases());
 
 $base = ['controller' => 'stream', 'library' => 'cms_social', 'admin' => true];
 Panes::registerActions('cms_social', 'authoring', [
-	$t('Stream') => ['action' => 'index'] + $base,
-	$t('Refresh Stream') => ['action' => 'poll'] + $base
+	$t('Social Stream') => ['action' => 'index'] + $base,
+	$t('Refresh Social Stream') => ['action' => 'poll'] + $base
 ]);
 
 ?>

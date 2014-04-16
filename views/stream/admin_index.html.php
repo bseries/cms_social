@@ -1,6 +1,14 @@
-<article class="view-<?= $this->_config['controller'] . '-' . $this->_config['template'] ?> use-list">
-	<h1 class="alpha"><?= $this->title($t('Social Stream')) ?></h1>
+<?php
 
+$this->set([
+	'page' => [
+		'type' => 'multiple',
+		'object' => $t('social stream')
+	]
+]);
+
+?>
+<article class="view-<?= $this->_config['controller'] . '-' . $this->_config['template'] ?> use-list">
 	<?php if ($data->count()): ?>
 		<table>
 			<thead>
@@ -21,7 +29,7 @@
 			<tbody class="list">
 				<?php foreach ($data as $item): ?>
 				<tr>
-					<td class="flag is-published"><?= ($item->is_published ? '✓' : '╳') ?>
+					<td class="flag is-published"><?= ($item->is_published ? '✓' : '×') ?>
 					<td class="type"><?= $item->type() ?>
 					<td class="emphasize title"><?= $item->title ?: $item->excerpt ?>
 					<td class="date published">
