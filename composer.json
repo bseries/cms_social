@@ -19,7 +19,7 @@
         "unionofrad/lithium": "dev-dev",
         "composer/installers": "~1.0",
         "facebook/php-sdk": "3.2.*",
-        "abraham/twitteroauth": "dev-master"
+        "abraham/twitteroauth": "1.0"
     },
     "repositories": [
       { "type": "vcs", "url": "git@bitbucket.org:atelierdisko/cms_core.git" },
@@ -28,11 +28,11 @@
         "type": "package", 
         "package": {
           "name": "abraham/twitteroauth",
-          "version": "master",
+          "version": "1.0",
           "source": {
             "type": "git",
             "url": "https://github.com/abraham/twitteroauth",
-            "reference": "master"
+            "reference": "origin/master"
           }
         }
       }
