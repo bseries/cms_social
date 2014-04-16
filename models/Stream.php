@@ -80,7 +80,8 @@ class Stream extends \cms_core\models\Base {
 				'excerpt' => $result->excerpt(),
 				'body' => $result->body(),
 				'raw' => json_encode($result->raw),
-				'published' => $result->published()
+				'published' => $result->published(),
+				'is_published' => Settings::read('socialStream.autopublish')
 			];
 			$item->save($data);
 		}
@@ -108,7 +109,8 @@ class Stream extends \cms_core\models\Base {
 				'title' => $result->title(),
 				'body' => $result->body(),
 				'raw' => json_encode($result->raw),
-				'published' => $result->published()
+				'published' => $result->published(),
+				'is_published' => Settings::read('socialStream.autopublish')
 			];
 			$item->save($data);
 		}

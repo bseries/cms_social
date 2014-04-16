@@ -12,6 +12,8 @@
 
 use cms_core\extensions\cms\Settings;
 
+Settings::register('cms_social', 'socialStream.autopublish', false);
+
 Settings::register('cms_social', 'service.tumblr.default.username');
 Settings::register('cms_social', 'service.vimeo.default.username');
 Settings::register('cms_social', 'service.facebook.default.appId');
