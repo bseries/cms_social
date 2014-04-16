@@ -10,9 +10,15 @@
  * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  */
 
-require 'settings.php';
-require 'media.php';
-require 'panes.php';
-// require 'widgets.php';
+use lithium\g11n\Message;
+use cms_core\extensions\cms\Panes;
+
+extract(Message::aliases());
+
+$base = ['controller' => 'stream', 'library' => 'cms_social', 'admin' => true];
+Panes::registerActions('cms_social', 'authoring', [
+	$t('Stream') => ['action' => 'index'] + $base,
+	$t('Refresh Stream') => ['action' => 'poll'] + $base
+]);
 
 ?>
