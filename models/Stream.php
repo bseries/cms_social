@@ -38,7 +38,7 @@ class Stream extends \cms_core\models\Base {
 		return str_replace('_', $separator, Inflector::underscore(Inflector::singularize($type)));
 	}
 
-	public static function poll($frequency = null) {
+	public static function poll() {
 		$settings = Settings::read('service.twitter');
 		foreach ($settings as $s) {
 			if (isset($s['accessToken'])) {

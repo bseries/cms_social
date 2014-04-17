@@ -10,10 +10,13 @@
  * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  */
 
-require 'settings.php';
-require 'media.php';
-require 'panes.php';
-// require 'widgets.php';
-require 'misc.php';
+use cms_core\extensions\cms\Jobs;
+use cms_social\models\Stream;
+
+Jobs::recur('cms_social', 'stream', function() {
+	Stream::poll();
+}, [
+	'frequency' => Jobs::FREQUENCY_MEDIUM
+]);
 
 ?>
