@@ -70,9 +70,13 @@ class Stream extends \cms_core\models\Base {
 			if (!$item) {
 				$item = Stream::create([
 					'model' => $result->model(),
-					'foreign_key' => $result->id()
+					'foreign_key' => $result->id(),
+					// Moved here as when autopublish is enabled it would otherwise
+					// force manually unpublised items to become published again.
+					'is_published' => Settings::read('socialStream.autopublish')
 				]);
 			}
+			// Always update data on items; we may have changed the method accessor return values.
 			$data = [
 				'author' => $result->author(),
 				'url' => $result->url(),
@@ -80,8 +84,8 @@ class Stream extends \cms_core\models\Base {
 				'excerpt' => $result->excerpt(),
 				'body' => $result->body(),
 				'raw' => json_encode($result->raw),
-				'published' => $result->published(),
-				'is_published' => Settings::read('socialStream.autopublish')
+				'published' => $result->published()
+				// Do not set is_published here, see note above.
 			];
 			$item->save($data);
 		}
@@ -100,17 +104,21 @@ class Stream extends \cms_core\models\Base {
 			if (!$item) {
 				$item = Stream::create([
 					'model' => $result->model(),
-					'foreign_key' => $result->id()
+					'foreign_key' => $result->id(),
+					// Moved here as when autopublish is enabled it would otherwise
+					// force manually unpublised items to become published again.
+					'is_published' => Settings::read('socialStream.autopublish')
 				]);
 			}
+			// Always update data on items.
 			$data = [
 				'author' => $result->author(),
 				'url' => $result->url(),
 				'title' => $result->title(),
 				'body' => $result->body(),
 				'raw' => json_encode($result->raw),
-				'published' => $result->published(),
-				'is_published' => Settings::read('socialStream.autopublish')
+				'published' => $result->published()
+				// Do not set is_published here, see note above.
 			];
 			$item->save($data);
 		}
