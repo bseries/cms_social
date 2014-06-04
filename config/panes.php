@@ -16,9 +16,8 @@ use cms_core\extensions\cms\Panes;
 extract(Message::aliases());
 
 $base = ['controller' => 'stream', 'library' => 'cms_social', 'admin' => true];
-Panes::registerActions('cms_social', 'authoring', [
-	$t('Social Stream') => ['action' => 'index'] + $base,
-	$t('Refresh Social Stream') => ['action' => 'poll'] + $base
+Panes::registerActions('cms_social', 'external', [
+	$t('Social Stream') => ['action' => 'index'] + $base
 ]);
 
 ?>
