@@ -14,7 +14,7 @@ use cms_media\models\Media;
 use cms_media\models\MediaVersions;
 use cms_social\models\Vimeo;
 use mm\Mime\Type;
-use Exception;
+use \Exception;
 
 // Registers Media and MediaVersions schemes.
 
