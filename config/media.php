@@ -13,7 +13,6 @@
 use cms_media\models\Media;
 use cms_media\models\MediaVersions;
 use cms_social\models\Vimeo;
-use mm\Mime\Type;
 use \Exception;
 
 // Registers Media and MediaVersions schemes.
@@ -31,11 +30,18 @@ Media::registerScheme('vimeo', [
 // files itself but uses a generic file make handler to do so.
 MediaVersions::registerScheme('vimeo', [
 	'make' => function($entity) {
-		$version = MediaVersions::assembly($entity->name(), $entity->version);
+		$isImageVersion = MediaVersions::assembly('image', $entity->version);
+		$isVideoVersion = MediaVersions::assembly('video', $entity->version);
 
-		// This handler only makes images. We don't want to download videos.
-		// Leave this version untoudched and just store the vimeo link.
-		if (!isset($version['convert']) || Type::guessName($version['convert']) !== 'image') {
+		// If this is a vimeo video version we just use the parent
+		// object in templates and don't store the url again here.
+		if ($isVideoVersion) {
+			return null;
+		}
+
+		// We will further only actually make vimeo poster images. Thus
+		// any other versions are skipped.
+		if (!$isImageVersion) {
 			return null; // Indicate skip.
 		}
 
