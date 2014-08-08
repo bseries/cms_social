@@ -12,18 +12,18 @@
 
 use cms_core\extensions\cms\Settings;
 
-Settings::register('cms_social', 'socialStream.autopublish', false);
+Settings::register('socialStream.autopublish', false);
 
-Settings::register('cms_social', 'service.tumblr.default.username');
-Settings::register('cms_social', 'service.vimeo.default.username');
-Settings::register('cms_social', 'service.facebook.default.appId');
-Settings::register('cms_social', 'service.facebook.default.appSecret');
-Settings::register('cms_social', 'service.facebook.default.pageUrl');
-Settings::register('cms_social', 'service.twitter.default.username');
-Settings::register('cms_social', 'service.twitter.default.consumerKey');
-Settings::register('cms_social', 'service.twitter.default.consumerSecret');
-Settings::register('cms_social', 'service.twitter.default.accessToken');
-Settings::register('cms_social', 'service.twitter.default.accessTokenSecret');
+Settings::register('service.tumblr.default.username');
+Settings::register('service.vimeo.default.username');
+Settings::register('service.facebook.default.appId');
+Settings::register('service.facebook.default.appSecret');
+Settings::register('service.facebook.default.pageUrl');
+Settings::register('service.twitter.default.username');
+Settings::register('service.twitter.default.consumerKey');
+Settings::register('service.twitter.default.consumerSecret');
+Settings::register('service.twitter.default.accessToken');
+Settings::register('service.twitter.default.accessTokenSecret');
 
 // Instagram Settings
 //
@@ -40,8 +40,8 @@ Settings::register('cms_social', 'service.twitter.default.accessTokenSecret');
 //
 // http://jelled.com/instagram/lookup-user-id
 //
-Settings::register('cms_social', 'service.instagram.default.username');
-Settings::register('cms_social', 'service.instagram.default.userId');
-Settings::register('cms_social', 'service.instagram.default.accessToken');
+Settings::register('service.instagram.default.username');
+Settings::register('service.instagram.default.userId');
+Settings::register('service.instagram.default.accessToken');
 
 ?>
