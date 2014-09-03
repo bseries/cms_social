@@ -14,6 +14,6 @@ require 'settings.php';
 require 'media.php';
 require 'panes.php';
 // require 'widgets.php';
-require 'misc.php';
+require 'jobs.php';
 
 ?>
