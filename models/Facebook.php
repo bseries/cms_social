@@ -18,9 +18,9 @@ use Facebook as FacebookClient;
 
 class Facebook extends \base_core\models\Base {
 
-	protected $_meta = array(
+	protected $_meta = [
 		'connection' => false
-	);
+	];
 
 	public static function pageLikeCount() {
 		$cacheKey = 'fb_clepto_page_like_count';
@@ -31,11 +31,11 @@ class Facebook extends \base_core\models\Base {
 
 		$service = Environment::get('service.facebook');
 
-		$client = new FacebookClient(array(
+		$client = new FacebookClient([
 			'appId' => $service['appId'],
 			'secret' => $service['appSecret'],
 			'fileUpload' => false
-		));
+		]);
 		$result = $client->api($service['pageId']);
 
 		Cache::write('default', $cacheKey, $result['likes']);

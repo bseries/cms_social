@@ -20,9 +20,9 @@ use lithium\util\Set;
 
 class Stream extends \base_core\models\Base {
 
-	protected $_meta = array(
+	protected $_meta = [
 		'source' => 'social_stream'
-	);
+	];
 
 	protected static $_actsAs = [
 		'base_core\extensions\data\behavior\Timestamp'

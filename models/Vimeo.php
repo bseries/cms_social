@@ -17,9 +17,9 @@ use Guzzle\Http\Client;
 
 class Vimeo extends \base_core\models\Base {
 
-	protected $_meta = array(
+	protected $_meta = [
 		'connection' => false
-	);
+	];
 
 	public static function validate($id) {
 		return (boolean) static::first($id);

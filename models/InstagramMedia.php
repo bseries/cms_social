@@ -18,9 +18,9 @@ use lithium\util\Set;
 // Needs raw data from the Instagram API.
 class InstagramMedia extends \base_core\models\Base {
 
-	protected $_meta = array(
+	protected $_meta = [
 		'connection' => false
-	);
+	];
 
 	public function id($entity) {
 		return $entity->raw['id'];

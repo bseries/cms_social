@@ -17,9 +17,9 @@ use cms_social\models\InstagramMedia;
 
 class Instagram extends \base_core\models\Base {
 
-	protected $_meta = array(
+	protected $_meta = [
 		'connection' => false
-	);
+	];
 
 	// Gets all media.
 	// @link http://instagram.com/developer/endpoints/users/#get_users_media_recent

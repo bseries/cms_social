@@ -18,9 +18,9 @@ use lithium\util\Set;
 // Needs untruncated, untrimmed raw data from Twitter API.
 class TwitterTweets extends \base_core\models\Base {
 
-	protected $_meta = array(
+	protected $_meta = [
 		'connection' => false
-	);
+	];
 
 	public function id($entity) {
 		return $entity->raw['id'];

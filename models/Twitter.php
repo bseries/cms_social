@@ -18,9 +18,9 @@ use cms_social\models\TwitterTweets;
 
 class Twitter extends \base_core\models\Base {
 
-	protected $_meta = array(
+	protected $_meta = [
 		'connection' => false
-	);
+	];
 
 	public static function all(array $config) {
 		$results = static::_api('/statuses/user_timeline', $config, [
