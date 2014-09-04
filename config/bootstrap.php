@@ -1,6 +1,6 @@
 <?php
 /**
- * Bureau Social
+ * CMS Social
  *
  * Copyright (c) 2014 Atelier Disko - All rights reserved.
  *

@@ -1,6 +1,6 @@
 <?php
 /**
- * Bureau Social
+ * CMS Social
  *
  * Copyright (c) 2014 Atelier Disko - All rights reserved.
  *
@@ -11,7 +11,7 @@
  */
 
 use lithium\g11n\Message;
-use cms_core\extensions\cms\Panes;
+use base_core\extensions\cms\Panes;
 
 extract(Message::aliases());
 

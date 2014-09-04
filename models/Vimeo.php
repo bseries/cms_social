@@ -1,6 +1,6 @@
 <?php
 /**
- * Bureau Social
+ * CMS Social
  *
  * Copyright (c) 2014 Atelier Disko - All rights reserved.
  *
@@ -15,7 +15,7 @@ namespace cms_social\models;
 use lithium\storage\Cache;
 use Guzzle\Http\Client;
 
-class Vimeo extends \cms_core\models\Base {
+class Vimeo extends \base_core\models\Base {
 
 	protected $_meta = array(
 		'connection' => false

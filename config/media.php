@@ -1,6 +1,6 @@
 <?php
 /**
- * Bureau Social
+ * CMS Social
  *
  * Copyright (c) 2014 Atelier Disko - All rights reserved.
  *
@@ -10,8 +10,8 @@
  * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  */
 
-use cms_media\models\Media;
-use cms_media\models\MediaVersions;
+use base_media\models\Media;
+use base_media\models\MediaVersions;
 use cms_social\models\Vimeo;
 use \Exception;
 

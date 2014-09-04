@@ -1,6 +1,6 @@
 <?php
 /**
- * Bureau Social
+ * CMS Social
  *
  * Copyright (c) 2014 Atelier Disko - All rights reserved.
  *
@@ -16,7 +16,7 @@ use lithium\core\Environment;
 use lithium\storage\Cache;
 use Facebook as FacebookClient;
 
-class Facebook extends \cms_core\models\Base {
+class Facebook extends \base_core\models\Base {
 
 	protected $_meta = array(
 		'connection' => false

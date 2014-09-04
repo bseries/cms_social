@@ -1,6 +1,6 @@
 <?php
 /**
- * Bureau Social
+ * CMS Social
  *
  * Copyright (c) 2014 Atelier Disko - All rights reserved.
  *
@@ -16,7 +16,7 @@ use lithium\storage\Cache;
 use TwitterOAuth as Client;
 use cms_social\models\TwitterTweets;
 
-class Twitter extends \cms_core\models\Base {
+class Twitter extends \base_core\models\Base {
 
 	protected $_meta = array(
 		'connection' => false

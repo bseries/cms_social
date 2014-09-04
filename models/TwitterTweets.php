@@ -1,6 +1,6 @@
 <?php
 /**
- * Bureau Social
+ * CMS Social
  *
  * Copyright (c) 2014 Atelier Disko - All rights reserved.
  *
@@ -16,7 +16,7 @@ use textual\Modulation as Textual;
 use lithium\util\Set;
 
 // Needs untruncated, untrimmed raw data from Twitter API.
-class TwitterTweets extends \cms_core\models\Base {
+class TwitterTweets extends \base_core\models\Base {
 
 	protected $_meta = array(
 		'connection' => false

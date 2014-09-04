@@ -1,6 +1,6 @@
 <?php
 /**
- * Bureau Social
+ * CMS Social
  *
  * Copyright (c) 2014 Atelier Disko - All rights reserved.
  *
@@ -16,7 +16,7 @@ use textual\Modulation as Textual;
 use lithium\util\Set;
 
 // Needs raw data from the Instagram API.
-class InstagramMedia extends \cms_core\models\Base {
+class InstagramMedia extends \base_core\models\Base {
 
 	protected $_meta = array(
 		'connection' => false

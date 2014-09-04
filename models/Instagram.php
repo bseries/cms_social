@@ -1,6 +1,6 @@
 <?php
 /**
- * Bureau Social
+ * CMS Social
  *
  * Copyright (c) 2014 Atelier Disko - All rights reserved.
  *
@@ -15,7 +15,7 @@ namespace cms_social\models;
 use Guzzle\Http\Client;
 use cms_social\models\InstagramMedia;
 
-class Instagram extends \cms_core\models\Base {
+class Instagram extends \base_core\models\Base {
 
 	protected $_meta = array(
 		'connection' => false

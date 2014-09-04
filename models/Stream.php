@@ -1,6 +1,6 @@
 <?php
 /**
- * Bureau Social
+ * CMS Social
  *
  * Copyright (c) 2014 Atelier Disko - All rights reserved.
  *
@@ -15,17 +15,17 @@ namespace cms_social\models;
 use cms_social\models\Twitter;
 use cms_social\models\Instagram;
 use lithium\util\Inflector;
-use cms_core\extensions\cms\Settings;
+use base_core\extensions\cms\Settings;
 use lithium\util\Set;
 
-class Stream extends \cms_core\models\Base {
+class Stream extends \base_core\models\Base {
 
 	protected $_meta = array(
 		'source' => 'social_stream'
 	);
 
 	protected static $_actsAs = [
-		'cms_core\extensions\data\behavior\Timestamp'
+		'base_core\extensions\data\behavior\Timestamp'
 	];
 
 	public function raw($entity, $path) {

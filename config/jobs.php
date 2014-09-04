@@ -1,6 +1,6 @@
 <?php
 /**
- * Bureau Social
+ * CMS Social
  *
  * Copyright (c) 2014 Atelier Disko - All rights reserved.
  *
@@ -10,7 +10,7 @@
  * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  */
 
-use cms_core\extensions\cms\Jobs;
+use base_core\extensions\cms\Jobs;
 use cms_social\models\Stream;
 
 Jobs::recur('stream', function() {
