@@ -17,7 +17,8 @@ extract(Message::aliases());
 
 Panes::register('external.socialStream', [
 	'title' => $t('Social Stream'),
-	'url' => ['controller' => 'stream', 'action' => 'index', 'library' => 'cms_social', 'admin' => true]
+	'url' => ['controller' => 'stream', 'action' => 'index', 'library' => 'cms_social', 'admin' => true],
+	'weight' => 30
 ]);
 
 ?>
