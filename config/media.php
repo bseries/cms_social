@@ -31,7 +31,9 @@ Media::registerScheme('vimeo', [
 MediaVersions::registerScheme('vimeo', [
 	'make' => function($entity) {
 		$isImageVersion = MediaVersions::assembly('image', $entity->version);
-		$isVideoVersion = MediaVersions::assembly('video', $entity->version);
+		// TODO The below line will always return true. Check why?
+		// $isVideoVersion = MediaVersions::assembly('video', $entity->version);
+		$isVideoVersion = strpos($entity->version, 'flux') !== false;
 
 		// If this is a vimeo video version we just use the parent
 		// object in templates and don't store the url again here.
