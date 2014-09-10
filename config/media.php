@@ -13,7 +13,9 @@
 use base_media\models\Media;
 use base_media\models\MediaVersions;
 use cms_social\models\Vimeo;
+use mm\Mime\Type;
 use \Exception;
+use lithium\analyis\Logger;
 
 // Registers Media and MediaVersions schemes.
 
@@ -26,29 +28,30 @@ Media::registerScheme('vimeo', [
 
 // Uses Vimeo's thumbnail and generates our local versions off it. Will
 // not store/link versions for the video files themselves as those cannot
-// be reached through the Vimeo API. This handler doesn't actuall make the
+// be reached through the Vimeo API. This handler doesn't actually make the
 // files itself but uses a generic file make handler to do so.
 MediaVersions::registerScheme('vimeo', [
 	'make' => function($entity) {
-		$isImageVersion = MediaVersions::assembly('image', $entity->version);
-		// TODO The below line will always return true. Check why?
-		// $isVideoVersion = MediaVersions::assembly('video', $entity->version);
-		$isVideoVersion = strpos($entity->version, 'flux') !== false;
+		// No video versions for this vimeo video are made. Frontend
+		// code should use the Vimeo ID of the Media-Entity to load
+		// the actual video.
+		if ($assembly = MediaVersions::assembly('video', $entity->version)) {
+			if (isset($assembly['convert'])) {
+				if (Type::guessName($assembly['convert']) === 'video') {
+					return null;
+				}
+			} else {
+				$message  = 'Cannot reliably determine if this is a video version; fallback';
+				$message .= 'to heuristics.';
+				Logger::debug($message);
 
-		// If this is a vimeo video version we just use the parent
-		// object in templates and don't store the url again here.
-		if ($isVideoVersion) {
-			return null;
+				if (strpos($entity->version, 'flux') !== false) {
+					return null;
+				}
+			}
 		}
 
-		// We will further only actually make vimeo poster images. Thus
-		// any other versions are skipped.
-		if (!$isImageVersion) {
-			return null; // Indicate skip.
-		}
-
-		// This changes the scheme of the entity, thus
-		// it capabilities.
+		// This changes the scheme of the entity, thus it capabilities.
 		$video = Vimeo::first(str_replace('vimeo://', '', $entity->url));
 		$entity->url = $video->thumbnail_large;
 
