@@ -13,7 +13,7 @@
 use base_core\extensions\cms\Jobs;
 use cms_social\models\Stream;
 
-Jobs::recur('stream', function() {
+Jobs::recur('cms_social:stream', function() {
 	Stream::poll();
 }, [
 	'frequency' => Jobs::FREQUENCY_MEDIUM
