@@ -12,18 +12,27 @@
 
 use base_core\extensions\cms\Settings;
 
-Settings::register('socialStream.autopublish', false);
-
-Settings::register('service.tumblr.default.username');
-Settings::register('service.vimeo.default.username');
-Settings::register('service.facebook.default.appId');
-Settings::register('service.facebook.default.appSecret');
-Settings::register('service.facebook.default.pageUrl');
-Settings::register('service.twitter.default.username');
-Settings::register('service.twitter.default.consumerKey');
-Settings::register('service.twitter.default.consumerSecret');
-Settings::register('service.twitter.default.accessToken');
-Settings::register('service.twitter.default.accessTokenSecret');
+Settings::register('service.tumblr.default', [
+	'autopublish' => false,
+	'username' => null
+]);
+Settings::register('service.vimeo.default', [
+	'autopublish' => false,
+	'username' => null
+]);
+Settings::register('service.facebook.default', [
+	'autopublish' => false,
+	'appId' => null,
+	'appSecret' => null,
+	'pageUrl' => null
+]);
+Settings::register('service.twitter.default', [
+	'autopublish' => false,
+	'username' => null,
+	'consumerKey' => null,
+	'accessToken' => null,
+	'accessTokenSecret' => null
+]);
 
 // Instagram Settings
 //
@@ -46,8 +55,11 @@ Settings::register('service.twitter.default.accessTokenSecret');
 //
 // http://jelled.com/instagram/lookup-user-id
 //
-Settings::register('service.instagram.default.username');
-Settings::register('service.instagram.default.userId');
-Settings::register('service.instagram.default.accessToken');
+Settings::register('service.instagram.default', [
+	'autopublish' => false,
+	'username' => null,
+	'userId' => null,
+	'accessToken' => null
+]);
 
 ?>
