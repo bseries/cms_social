@@ -73,7 +73,7 @@ class Stream extends \base_core\models\Base {
 					'foreign_key' => $result->id(),
 					// Moved here as when autopublish is enabled it would otherwise
 					// force manually unpublised items to become published again.
-					'is_published' => Settings::read('socialStream.autopublish')
+					'is_published' => $config['autopublish']
 				]);
 			}
 			// Always update data on items; we may have changed the method accessor return values.
@@ -107,7 +107,7 @@ class Stream extends \base_core\models\Base {
 					'foreign_key' => $result->id(),
 					// Moved here as when autopublish is enabled it would otherwise
 					// force manually unpublised items to become published again.
-					'is_published' => Settings::read('socialStream.autopublish')
+					'is_published' => $config['autopublish']
 				]);
 			}
 			// Always update data on items.
