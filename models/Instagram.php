@@ -14,6 +14,7 @@ namespace cms_social\models;
 
 use Guzzle\Http\Client;
 use cms_social\models\InstagramMedia;
+use lithium\analysis\Logger;
 
 class Instagram extends \base_core\models\Base {
 
@@ -26,10 +27,12 @@ class Instagram extends \base_core\models\Base {
 	public static function all(array $config) {
 		$results = static::_api("users/{$config['userId']}/media/recent", $config);
 
+		if (!$results) {
+			return $results;
+		}
 		foreach ($results as &$result) {
 			$result = InstagramMedia::create(['raw' => $result]);
 		}
-
 		return $results;
 	}
 
@@ -43,6 +46,7 @@ class Instagram extends \base_core\models\Base {
 		try {
 			$response = $request->send();
 		} catch (\Exception $e) {
+			Logger::notice('Failed Instagram-API request: ' . $e->getMessage());
 			return false;
 		}
 		$result = json_decode($response->getBody(), true);

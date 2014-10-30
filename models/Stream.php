@@ -94,6 +94,9 @@ class Stream extends \base_core\models\Base {
 	protected static function _pollInstagram($config) {
 		$results = Instagram::all($config);
 
+		if (!$results) {
+			return $results;
+		}
 		foreach ($results as $result) {
 			$item = Stream::find('first', [
 				'conditions' => [
