@@ -39,7 +39,8 @@ class InstagramMedia extends \base_core\models\Base {
 	}
 
 	public function body($entity) {
-		$image = $entity->raw['images']['standard_resolution'];
+		// Make links work with HTTPS, too. By default instagram URLs are HTTP.
+		$image = str_replace('http://', '//', $entity->raw['images']['standard_resolution']);
 
 		$html = '';
 		$html .= "<img width=\"{$image['width']}\" height=\"{$image['height']}\" src=\"{$image['url']}\">";
