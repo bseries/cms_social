@@ -36,7 +36,7 @@
           "source": {
             "type": "git",
             "url": "https://github.com/abraham/twitteroauth",
-            "reference": "origin/master"
+            "reference": "adf6a8ee92b0bac69cae7dded9743d5a7de0057e"
           }
         }
       }
