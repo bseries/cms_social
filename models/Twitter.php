@@ -12,7 +12,8 @@
 
 namespace cms_social\models;
 
-use Twitter as Client;
+use TwitterOAuth\Auth\SingleUserAuth as ClientAuth;
+use TwitterOAuth\Serializer\ArraySerializer as ClientSerializer;
 use cms_social\models\TwitterTweets;
 use Exception;
 
@@ -23,7 +24,11 @@ class Twitter extends \base_core\models\Base {
 	];
 
 	public static function all(array $config) {
-		$results = static::_api('/statuses/user_timeline', $config);
+		$results = static::_api('/statuses/user_timeline', $config, [
+			// Show tweets by us only.
+			'screen_name' => $config['username'],
+			'exclude_replies' => true
+		]);
 
 		foreach ($results as &$result) {
 			$result = TwitterTweets::create(['raw' => $result]);
@@ -32,16 +37,14 @@ class Twitter extends \base_core\models\Base {
 	}
 
 	protected static function _api($url, array $config, array $params = []) {
-		$connection = new Client(
-			$config['consumerKey'],
-			$config['consumerSecret'],
-			$config['accessToken'],
-			$config['accessTokenSecret']
-		);
-		if ($url !== '/statuses/user_timeline') {
-			throw new Exception("Unsupported Twitter URL {$url}.");
-		}
-		return $connection->load(Client::ME);
+		$connection = new ClientAuth([
+			'consumer_key' => $config['consumerKey'],
+			'consumer_secret' => $config['consumerSecret'],
+			'oauth_token' => $config['accessToken'],
+			'oauth_token_secret' => $config['accessTokenSecret']
+		], new ClientSerializer());
+
+		return $connection->get($url, $params);
 	}
 }
 
