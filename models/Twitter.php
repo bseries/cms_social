@@ -12,9 +12,9 @@
 
 namespace cms_social\models;
 
-use lithium\storage\Cache;
-use TwitterOAuth as Client;
+use Twitter as Client;
 use cms_social\models\TwitterTweets;
+use Exception;
 
 class Twitter extends \base_core\models\Base {
 
@@ -23,10 +23,8 @@ class Twitter extends \base_core\models\Base {
 	];
 
 	public static function all(array $config) {
-		$results = static::_api('/statuses/user_timeline', $config, [
-			// 'trim_user' => true,
-			// 'exclude_replies' => true
-		]);
+		$results = static::_api('/statuses/user_timeline', $config);
+
 		foreach ($results as &$result) {
 			$result = TwitterTweets::create(['raw' => $result]);
 		}
@@ -40,12 +38,10 @@ class Twitter extends \base_core\models\Base {
 			$config['accessToken'],
 			$config['accessTokenSecret']
 		);
-		$connection->decode_json = false;
-
-		$params['screen_name'] = $config['username'];
-
-		$result = $connection->get($url, $params);
-		return json_decode($result, true);
+		if ($url !== '/statuses/user_timeline') {
+			throw new Exception("Unsupported Twitter URL {$url}.");
+		}
+		return $connection->load(Client::ME);
 	}
 }
 

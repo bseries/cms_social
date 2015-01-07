@@ -58,6 +58,8 @@ class Stream extends \base_core\models\Base {
 		$results = Twitter::all($config);
 
 		foreach ($results as $result) {
+			var_dump($result);
+			die;
 			if ($result->retweeted() || $result->replied()) {
 				continue;
 			}

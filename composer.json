@@ -20,7 +20,7 @@
         "unionofrad/lithium": "dev-dev as 1.0.0-dev",
         "composer/installers": "1.0.*@stable",
         "facebook/php-sdk": "3.2.*@stable",
-        "dg/twitter-php": "3.5.*@stable",
+        "ricardoper/TwitterOAuth": "2.1.*@stable",
         "davidpersson/textual": "1.0.*@stable",
         "davidpersson/mm": "2.0.*@dev"
     },
