@@ -22,7 +22,7 @@
         "facebook/php-sdk": "3.2.*",
         "abraham/twitteroauth": "1.0",
         "davidpersson/textual": "1.*",
-        "davidpersson/mm": "2.0.0-alpha2"
+        "davidpersson/mm": "2.0.0-alpha2@dev"
     },
     "repositories": [
       { "type": "vcs", "url": "git@bitbucket.org:atelierdisko/base_core.git" },
