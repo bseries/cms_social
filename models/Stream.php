@@ -12,11 +12,12 @@
 
 namespace cms_social\models;
 
-use cms_social\models\Twitter;
-use cms_social\models\Instagram;
 use lithium\util\Inflector;
-use base_core\extensions\cms\Settings;
 use lithium\util\Set;
+
+use base_social\models\Twitter;
+use base_social\models\Instagram;
+use base_core\extensions\cms\Settings;
 
 class Stream extends \base_core\models\Base {
 
