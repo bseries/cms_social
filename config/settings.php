@@ -19,27 +19,27 @@ use base_core\extensions\cms\Settings;
 // 2. stream, allows to in or exclude service from
 //    social stream.
 
-Settings::register('service.tumblr.default', [
+Settings::write('service.tumblr.default', [
 	'autopublish' => false,
 	'stream' => false
 ] + Settings::read('service.tumblr.default'));
 
-Settings::register('service.vimeo.default', [
+Settings::write('service.vimeo.default', [
 	'autopublish' => false,
 	'stream' => false
 ] + Settings::read('service.vimeo.default'));
 
-Settings::register('service.facebook.default', [
+Settings::write('service.facebook.default', [
 	'autopublish' => false,
 	'stream' => false
-] + Settings::read('service.vimeo.default'));
+] + Settings::write('service.vimeo.default'));
 
-Settings::register('service.twitter.default', [
+Settings::write('service.twitter.default', [
 	'autopublish' => false,
 	'stream' => false
 ] + Settings::read('service.twitter.default'));
 
-Settings::register('service.instagram.default', [
+Settings::write('service.instagram.default', [
 	'autopublish' => false,
 	'stream' => false
 ] + Settings::read('service.twitter.default'));
