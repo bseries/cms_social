@@ -12,20 +12,14 @@
 
 namespace cms_social\controllers;
 
-use cms_social\models\Stream;
 use lithium\g11n\Message;
 use li3_flash_message\extensions\storage\FlashMessage;
+
+use cms_social\models\Stream;
 
 class StreamController extends \base_core\controllers\BaseController {
 
 	use \base_core\controllers\AdminPublishTrait;
-
-	public function admin_index() {
-		$data = Stream::find('all', [
-			'order' => ['published' => 'DESC']
-		]);
-		return compact('data');
-	}
 
 	public function admin_poll() {
 		extract(Message::aliases());
