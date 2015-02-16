@@ -42,14 +42,14 @@ class Stream extends \base_core\models\Base {
 	public static function poll() {
 		$settings = Settings::read('service.twitter');
 		foreach ($settings as $s) {
-			if (isset($s['accessToken'])) {
+			if ($s['stream']) {
 				static::_pollTwitter($s);
 			}
 		}
 
 		$settings = Settings::read('service.instagram');
 		foreach ($settings as $s) {
-			if (isset($s['accessToken'])) {
+			if ($s['stream']) {
 				static::_pollInstagram($s);
 			}
 		}
