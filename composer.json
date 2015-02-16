@@ -13,19 +13,15 @@
     "require": {
         "php": ">=5.5.0",
         "atelierdisko/base_core": "1.3.*@dev",
-        "atelierdisko/base_media": "1.3.*@dev",
+        "atelierdisko/base_social": "1.3.*@dev",
         "atelierdisko/cms_core": "1.3.*@dev",
         "atelierdisko/li3_flash_message": "1.0.*@beta",
-        "guzzlehttp/guzzle": "3.8.*@stable",
         "unionofrad/lithium": "dev-dev as 1.0.0-dev",
-        "composer/installers": "1.0.*@stable",
-        "ricardoper/TwitterOAuth": "2.1.*@stable",
-        "davidpersson/textual": "1.0.*@stable",
-        "davidpersson/mm": "2.0.*@dev"
+        "composer/installers": "1.0.*@stable"
     },
     "repositories": [
-      { "type": "vcs", "url": "git@bitbucket.org:atelierdisko/base_core.git" },
-      { "type": "vcs", "url": "git@bitbucket.org:atelierdisko/base_media.git" },
-      { "type": "vcs", "url": "git@bitbucket.org:atelierdisko/cms_core.git" }
+      { "type": "vcs", "url": "git@code.atelierdisko.de:base_core.git" },
+      { "type": "vcs", "url": "git@code.atelierdisko.de:base_social.git" },
+      { "type": "vcs", "url": "git@code.atelierdisko.de:cms_core.git" }
     ]
 }
