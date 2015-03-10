@@ -1,0 +1,70 @@
+# German translations for cms_social package.
+# Copyright (C) 2015 Atelier Disko
+# This file is distributed under the same license as the cms_social package.
+# Automatically generated, 2015.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: cms_social 1.0\n"
+"Report-Msgid-Bugs-To: info@atelierdisko.de\n"
+"POT-Creation-Date: 2015-03-10 18:14+0100\n"
+"PO-Revision-Date: 2015-03-10 18:14+0100\n"
+"Last-Translator: Automatically generated\n"
+"Language-Team: none\n"
+"Language: de\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: config/panes.php:19
+msgid "Social Stream"
+msgstr ""
+
+#: controllers/StreamController.php:28
+msgid "Successfully polled."
+msgstr ""
+
+#: views/stream/admin_index.html.php:6
+msgid "social stream"
+msgstr ""
+
+#: views/stream/admin_index.html.php:22
+msgid "refresh"
+msgstr ""
+
+#: views/stream/admin_index.html.php:29
+msgid "publ.?"
+msgstr ""
+
+#: views/stream/admin_index.html.php:30
+msgid "Type"
+msgstr ""
+
+#: views/stream/admin_index.html.php:31
+msgid "Excerpt"
+msgstr ""
+
+#: views/stream/admin_index.html.php:31
+msgid "Title"
+msgstr ""
+
+#: views/stream/admin_index.html.php:32
+msgid "Pubdate"
+msgstr ""
+
+#: views/stream/admin_index.html.php:33
+msgid "Modified"
+msgstr ""
+
+#: views/stream/admin_index.html.php:51
+msgid "publish"
+msgstr ""
+
+#: views/stream/admin_index.html.php:51
+msgid "unpublish"
+msgstr ""
+
+#: views/stream/admin_index.html.php:56
+msgid "No items available, yet."
+msgstr ""

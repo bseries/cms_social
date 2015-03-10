@@ -10,15 +10,13 @@
  * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  */
 
-use lithium\g11n\Message;
-use base_core\extensions\cms\Panes;
+use lithium\g11n\Catalog;
 
-extract(Message::aliases());
-
-Panes::register('external.socialStream', [
-	'title' => $t('Social Stream', ['scope' => 'cms_social']),
-	'url' => ['controller' => 'stream', 'action' => 'index', 'library' => 'cms_social', 'admin' => true],
-	'weight' => 30
-]);
+Catalog::config([
+	basename(dirname(__DIR__)) => [
+		'adapter' => 'Gettext',
+		'path' => dirname(__DIR__) . '/resources/g11n/po'
+	 ]
+] + Catalog::config());
 
 ?>
