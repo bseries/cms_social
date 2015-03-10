@@ -32,7 +32,7 @@ Settings::write('service.vimeo.default', [
 Settings::write('service.facebook.default', [
 	'autopublish' => false,
 	'stream' => false
-] + Settings::write('service.vimeo.default'));
+] + Settings::read('service.vimeo.default'));
 
 Settings::write('service.twitter.default', [
 	'autopublish' => false,
