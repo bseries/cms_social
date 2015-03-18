@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: cms_social 1.0\n"
 "Report-Msgid-Bugs-To: info@atelierdisko.de\n"
-"POT-Creation-Date: 2015-03-10 18:14+0100\n"
+"POT-Creation-Date: 2015-03-18 13:22+0100\n"
 "PO-Revision-Date: 2015-03-10 18:14+0100\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
@@ -25,46 +25,46 @@ msgstr ""
 msgid "Successfully polled."
 msgstr ""
 
-#: views/stream/admin_index.html.php:6
+#: views/stream/admin_index.html.php:12
 msgid "social stream"
 msgstr ""
 
-#: views/stream/admin_index.html.php:22
+#: views/stream/admin_index.html.php:29
 msgid "refresh"
 msgstr ""
 
-#: views/stream/admin_index.html.php:29
+#: views/stream/admin_index.html.php:36
 msgid "publ.?"
 msgstr ""
 
-#: views/stream/admin_index.html.php:30
+#: views/stream/admin_index.html.php:37
 msgid "Type"
 msgstr ""
 
-#: views/stream/admin_index.html.php:31
+#: views/stream/admin_index.html.php:38
 msgid "Excerpt"
 msgstr ""
 
-#: views/stream/admin_index.html.php:31
+#: views/stream/admin_index.html.php:38
 msgid "Title"
 msgstr ""
 
-#: views/stream/admin_index.html.php:32
+#: views/stream/admin_index.html.php:39
 msgid "Pubdate"
 msgstr ""
 
-#: views/stream/admin_index.html.php:33
+#: views/stream/admin_index.html.php:40
 msgid "Modified"
 msgstr ""
 
-#: views/stream/admin_index.html.php:51
+#: views/stream/admin_index.html.php:58
 msgid "publish"
 msgstr ""
 
-#: views/stream/admin_index.html.php:51
+#: views/stream/admin_index.html.php:58
 msgid "unpublish"
 msgstr ""
 
-#: views/stream/admin_index.html.php:56
+#: views/stream/admin_index.html.php:63
 msgid "No items available, yet."
 msgstr ""
