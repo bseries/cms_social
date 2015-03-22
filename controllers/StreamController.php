@@ -19,6 +19,9 @@ use cms_social\models\Stream;
 
 class StreamController extends \base_core\controllers\BaseController {
 
+	protected $_model = 'cms_social\models\Stream';
+
+	use \base_core\controllers\AdminIndexTrait;
 	use \base_core\controllers\AdminPublishTrait;
 
 	public function admin_poll() {
