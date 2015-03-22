@@ -37,7 +37,7 @@ $this->set([
 					<td><?= $t('Type') ?>
 					<td data-sort="title" class="emphasize title table-sort"><?= $t('Title') . '/' . $t('Excerpt') ?>
 					<td data-sort="published" class="date published table-sort"><?= $t('Pubdate') ?>
-					<td data-sort="modified" class="date modified desc"><?= $t('Modified') ?>
+					<td data-sort="modified" class="date modified table-sort desc"><?= $t('Modified') ?>
 					<td class="actions">
 						<?= $this->form->field('search', [
 							'type' => 'search',
