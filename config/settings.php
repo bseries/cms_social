@@ -12,36 +12,43 @@
 
 use base_core\extensions\cms\Settings;
 
-// Two settings for each social service are available:
 //
-// 1. autopublish, allows to automatically publish new
-//    entities in stream.
-// 2. stream, allows to in or exclude service from
-//    social stream.
-
-Settings::write('service.tumblr.default', [
-	'autopublish' => false,
+// Adds stream setting under the service key, to control
+// streaming behavior.
+//
+// `'stream'` is either `false` to disable streaming
+// entirely (the default) or an array of searches.
+//
+// Simple stream searches look like this:
+// ```
+// ['tag' => 'foo'],    // items with tag `foo`
+// ['author' => 'bar'], // items authored by user `bar`
+// ['search' => 'baz'], // items containing the term `baz`
+// ```
+//
+// A stream search may contain an additional filter function
+// This allows to filter out unwanted items:
+// ```
+// ['author' => 'bar', 'filter' => function($item) {
+//     return !$item->retweeted() && !$item->replied()
+// }],
+// ```
+//
+// The `'autopublish'` key allows to enable or disable
+// (the default), autopublishing of the stream search:
+// ```
+// ['author' => 'bar', 'autopublish' => true]
+// ```
+Settings::write('service.twitter.default', [
 	'stream' => false
-] + Settings::read('service.tumblr.default'));
+] + Settings::read('service.twitter.default'));
 
 Settings::write('service.vimeo.default', [
-	'autopublish' => false,
 	'stream' => false
 ] + Settings::read('service.vimeo.default'));
-
-Settings::write('service.facebook.default', [
-	'autopublish' => false,
-	'stream' => false
-] + Settings::read('service.vimeo.default'));
-
-Settings::write('service.twitter.default', [
-	'autopublish' => false,
-	'stream' => false
-] + Settings::read('service.twitter.default'));
 
 Settings::write('service.instagram.default', [
-	'autopublish' => false,
 	'stream' => false
-] + Settings::read('service.twitter.default'));
+] + Settings::read('service.instagram.default'));
 
 ?>

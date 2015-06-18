@@ -45,27 +45,90 @@ class Stream extends \base_core\models\Base {
 		return str_replace('_', $separator, Inflector::underscore(Inflector::singularize($type)));
 	}
 
-	public static function poll() {
-		$settings = Settings::read('service.twitter');
-		foreach ($settings as $s) {
-			if ($s['stream']) {
-				static::_pollTwitter($s);
-			}
-		}
+	/* Polling */
 
-		$settings = Settings::read('service.instagram');
-		foreach ($settings as $s) {
-			if ($s['stream']) {
-				static::_pollInstagram($s);
+	public static function poll() {
+		foreach (['twitter', 'instagram'] as $service) {
+			if (!$settings = Settings::read('service.' . $service)) {
+				throw new Exception("No settings found for service `{$service}`.");
 			}
+			$method = '_poll' . ucfirst($service);
+
+			foreach ($settings as $s) {
+				if ($s['stream']) {
+					if (!static::{$method}($s)) {
+						return false;
+					}
+				}
+			}
+			return true;
 		}
 	}
 
-	protected static function _pollTwitter($config) {
-		$results = Twitter::all($config);
+	protected static function _pollTwitter(array $config) {
+		$normalize = function($item) {
+			return [
+				'author' => $item->author(),
+				'url' => $item->url(),
+				// Tweets don't have titles but excerpts.
+				'excerpt' => $item->excerpt(),
+				'body' => $item->body(),
+				'raw' => json_encode($item->raw),
+				'published' => $item->published()
+			];
+		};
+		foreach ($config['stream'] as $search) {
+			$results = [];
 
+			if (isset($search['author'])) {
+				$data = Twitter::allByAuthor($search['author'], $config);
+			} elseif (isset($search['tag'])) {
+				$data = Twitter::allByTag($search['tag'], $config);
+			} elseif (isset($search['search'])) {
+				$data = Twitter::search($search['search'], $config);
+			} else {
+				throw Exception('No supported stream search action found.');
+			}
+			static::_update(
+				$results,
+				$normalize,
+				isset($search['filter']) ? $search['filter'] : null,
+				!empty($search['autopublish'])
+			);
+		}
+	}
+
+	protected static function _pollInstagram(array $config) {
+		$normalize = function($item) {
+			return [
+				'author' => $item->author(),
+				'url' => $item->url(),
+				'title' => $item->title(),
+				'body' => $item->body(),
+				'raw' => json_encode($item->raw),
+				'published' => $item->published()
+			];
+		};
+		foreach ($config['stream'] as $search) {
+			$results = [];
+
+			if (isset($search['author'])) {
+				$data = Instagram::allMediaByAuthor($search['author'], $config);
+			} else {
+				throw Exception('No supported stream search action found.');
+			}
+			static::_update(
+				$results,
+				$normalize,
+				isset($search['filter']) ? $search['filter'] : null,
+				!empty($search['autopublish'])
+			);
+		}
+	}
+
+	protected static function _update(array $results, $normalize, $filter, $autopublish) {
 		foreach ($results as $result) {
-			if ($result->retweeted() || $result->replied()) {
+			if ($filter && !$filter($result)) {
 				continue;
 			}
 			$item = Stream::find('first', [
@@ -80,58 +143,15 @@ class Stream extends \base_core\models\Base {
 					'foreign_key' => $result->id(),
 					// Moved here as when autopublish is enabled it would otherwise
 					// force manually unpublised items to become published again.
-					'is_published' => $config['autopublish']
+					'is_published' => $autopublish
 				]);
 			}
 			// Always update data on items; we may have changed the method accessor return values.
-			$data = [
-				'author' => $result->author(),
-				'url' => $result->url(),
-				// Tweets don't have titles but excerpts.
-				'excerpt' => $result->excerpt(),
-				'body' => $result->body(),
-				'raw' => json_encode($result->raw),
-				'published' => $result->published()
-				// Do not set is_published here, see note above.
-			];
-			$item->save($data);
-		}
-	}
-
-	protected static function _pollInstagram($config) {
-		$results = Instagram::all($config);
-
-		if (!$results) {
-			return $results;
-		}
-		foreach ($results as $result) {
-			$item = Stream::find('first', [
-				'conditions' => [
-					'model' => $result->model(),
-					'foreign_key' => $result->id()
-				]
-			]);
-			if (!$item) {
-				$item = Stream::create([
-					'model' => $result->model(),
-					'foreign_key' => $result->id(),
-					// Moved here as when autopublish is enabled it would otherwise
-					// force manually unpublised items to become published again.
-					'is_published' => $config['autopublish']
-				]);
+			if (!$item->save($normalize($data))) {
+				return false;
 			}
-			// Always update data on items.
-			$data = [
-				'author' => $result->author(),
-				'url' => $result->url(),
-				'title' => $result->title(),
-				'body' => $result->body(),
-				'raw' => json_encode($result->raw),
-				'published' => $result->published()
-				// Do not set is_published here, see note above.
-			];
-			$item->save($data);
 		}
+		return true;
 	}
 }
 
