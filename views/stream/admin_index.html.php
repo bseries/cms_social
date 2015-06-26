@@ -26,7 +26,7 @@ $this->set([
 >
 
 	<div class="top-actions">
-		<?= $this->html->link($t('refresh'), ['action' => 'poll'], ['class' => 'button add']) ?>
+		<?= $this->html->link($t('refresh'), ['action' => 'poll'], ['class' => 'button refresh']) ?>
 	</div>
 
 	<?php if ($data->count()): ?>
@@ -34,6 +34,7 @@ $this->set([
 			<thead>
 				<tr>
 					<td data-sort="is-published" class="flag table-sort"><?= $t('publ.?') ?>
+					<td data-sort="search" class="table-sort"><?= $t('Search') ?>
 					<td><?= $t('Type') ?>
 					<td data-sort="title" class="emphasize title table-sort"><?= $t('Title') . '/' . $t('Excerpt') ?>
 					<td data-sort="published" class="date published table-sort"><?= $t('Pubdate') ?>
@@ -51,6 +52,7 @@ $this->set([
 				<?php foreach ($data as $item): ?>
 				<tr>
 					<td class="flag"><i class="material-icons"><?= ($item->is_published ? 'done' : '') ?></i>
+					<td><?= $item->search ?>
 					<td><?= $item->type() ?>
 					<td class="emphasize title"><?= $item->title ?: $item->excerpt ?>
 					<td class="date published">

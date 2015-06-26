@@ -77,9 +77,8 @@ class Stream extends \base_core\models\Base {
 				'published' => $item->published()
 			];
 		};
-		foreach ($config['stream'] as $search) {
-			$results = [];
 
+		foreach ($config['stream'] as $name => $search) {
 			if (isset($search['author'])) {
 				$data = Twitter::allByAuthor($search['author'], $config);
 			} elseif (isset($search['tag'])) {
@@ -90,8 +89,9 @@ class Stream extends \base_core\models\Base {
 				throw Exception('No supported stream search action found.');
 			}
 			static::_update(
-				$results,
+				$data,
 				$normalize,
+				is_numeric($name) ? 'default' : $name,
 				isset($search['filter']) ? $search['filter'] : null,
 				!empty($search['autopublish'])
 			);
@@ -110,23 +110,22 @@ class Stream extends \base_core\models\Base {
 			];
 		};
 		foreach ($config['stream'] as $search) {
-			$results = [];
-
 			if (isset($search['author'])) {
 				$data = Instagram::allMediaByAuthor($search['author'], $config);
 			} else {
 				throw Exception('No supported stream search action found.');
 			}
 			static::_update(
-				$results,
+				$data,
 				$normalize,
+				is_numeric($name) ? 'default' : $name,
 				isset($search['filter']) ? $search['filter'] : null,
 				!empty($search['autopublish'])
 			);
 		}
 	}
 
-	protected static function _update(array $results, $normalize, $filter, $autopublish) {
+	protected static function _update(array $results, $normalize, $name, $filter, $autopublish) {
 		foreach ($results as $result) {
 			if ($filter && !$filter($result)) {
 				continue;
@@ -141,13 +140,16 @@ class Stream extends \base_core\models\Base {
 				$item = Stream::create([
 					'model' => $result->model(),
 					'foreign_key' => $result->id(),
+
+					'search' => $name,
+
 					// Moved here as when autopublish is enabled it would otherwise
 					// force manually unpublised items to become published again.
 					'is_published' => $autopublish
 				]);
 			}
 			// Always update data on items; we may have changed the method accessor return values.
-			if (!$item->save($normalize($data))) {
+			if (!$item->save($normalize($result))) {
 				return false;
 			}
 		}

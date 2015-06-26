@@ -12,6 +12,7 @@
 
 use base_core\extensions\cms\Settings;
 
+// # Social Stream Searches
 //
 // Adds stream setting under the service key, to control
 // streaming behavior.
@@ -24,6 +25,17 @@ use base_core\extensions\cms\Settings;
 // ['tag' => 'foo'],    // items with tag `foo`
 // ['author' => 'bar'], // items authored by user `bar`
 // ['search' => 'baz'], // items containing the term `baz`
+// ```
+//
+// Named searches can be defined as follows the name of the
+// search will be stored inside the `'search'` field of the
+// stream item. It can later be used to retrieve results
+// of certain searches only. The default search name is
+// `'default'`.
+//
+// ```
+// 'tagged' => ['tag' => 'foo'] // The name of the search is `'tagged'`.
+// ['tag' => 'foo'] // The name of the search is `'default'`.
 // ```
 //
 // A stream search may contain an additional filter function
