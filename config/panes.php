@@ -10,6 +10,8 @@
  * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  */
 
+namespace cms_social\config;
+
 use lithium\g11n\Message;
 use base_core\extensions\cms\Panes;
 
