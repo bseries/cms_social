@@ -61,8 +61,8 @@ class Stream extends \base_core\models\Base {
 					}
 				}
 			}
-			return true;
 		}
+		return true;
 	}
 
 	protected static function _pollTwitter(array $config) {
@@ -96,6 +96,7 @@ class Stream extends \base_core\models\Base {
 				!empty($search['autopublish'])
 			);
 		}
+		return true;
 	}
 
 	protected static function _pollInstagram(array $config) {
@@ -109,7 +110,7 @@ class Stream extends \base_core\models\Base {
 				'published' => $item->published()
 			];
 		};
-		foreach ($config['stream'] as $search) {
+		foreach ($config['stream'] as $name => $search) {
 			if (isset($search['author'])) {
 				$data = Instagram::allMediaByAuthor($search['author'], $config);
 			} else {
@@ -123,6 +124,7 @@ class Stream extends \base_core\models\Base {
 				!empty($search['autopublish'])
 			);
 		}
+		return true;
 	}
 
 	protected static function _update(array $results, $normalize, $name, $filter, $autopublish) {
