@@ -8,6 +8,8 @@
 
 ### Added
 
+- Stream searches.
+
 ### Changed
 
 ### Backwards Incompatible Changes
