@@ -17,7 +17,7 @@
 
 namespace cms_social\config;
 
-use base_core\extensions\cms\Jobs;
+use base_core\async\Jobs;
 use cms_social\models\Stream;
 
 Jobs::recur('cms_social:stream', function() {
