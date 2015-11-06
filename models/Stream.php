@@ -17,12 +17,13 @@
 
 namespace cms_social\models;
 
+use Exception;
+use InvalidArgumentException;
+use base_core\extensions\cms\Settings;
+use base_social\models\Instagram;
+use base_social\models\Twitter;
 use lithium\util\Inflector;
 use lithium\util\Set;
-
-use base_social\models\Twitter;
-use base_social\models\Instagram;
-use base_core\extensions\cms\Settings;
 
 // TODO Implement Vimeo Polling and arbitrary base social sources.
 class Stream extends \base_core\models\Base {
@@ -63,10 +64,17 @@ class Stream extends \base_core\models\Base {
 			$method = '_poll' . ucfirst($service);
 
 			foreach ($settings as $s) {
-				if ($s['stream']) {
-					if (!static::{$method}($s)) {
-						return false;
-					}
+				if (!$s['stream']) {
+					continue;
+				}
+				if (!is_array($s['stream'])) {
+					throw new InvalidArgumentException('`stream` option has wrong type.');
+				}
+				if (!is_array(current($s['stream'])) || is_numeric(key($s['stream']))) {
+					throw new InvalidArgumentException('`stream` option must be an array of named arrays.');
+				}
+				if (!static::{$method}($s)) {
+					return false;
 				}
 			}
 		}
@@ -83,7 +91,7 @@ class Stream extends \base_core\models\Base {
 				'body' => $item->body(),
 				'raw' => json_encode($item->raw),
 				'published' => $item->published(),
-				'tags' => $result->tags()
+				'tags' => $item->tags()
 			];
 		};
 
@@ -95,7 +103,7 @@ class Stream extends \base_core\models\Base {
 			} elseif (isset($search['search'])) {
 				$data = Twitter::search($search['search'], $config);
 			} else {
-				throw Exception('No supported stream search action found.');
+				throw new Exception('No supported stream search action found.');
 			}
 			static::_update(
 				$data,
@@ -117,14 +125,14 @@ class Stream extends \base_core\models\Base {
 				'body' => $item->body(),
 				'raw' => json_encode($item->raw),
 				'published' => $item->published(),
-				'tags' => $result->tags()
+				'tags' => $item->tags()
 			];
 		};
 		foreach ($config['stream'] as $name => $search) {
 			if (isset($search['author'])) {
 				$data = Instagram::allMediaByAuthor($search['author'], $config);
 			} else {
-				throw Exception('No supported stream search action found.');
+				throw new Exception('No supported stream search action found.');
 			}
 			static::_update(
 				$data,
