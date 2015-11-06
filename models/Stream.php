@@ -24,6 +24,7 @@ use base_social\models\Twitter;
 use base_social\models\Instagram;
 use base_core\extensions\cms\Settings;
 
+// TODO Implement Vimeo Polling and arbitrary base social sources.
 class Stream extends \base_core\models\Base {
 
 	protected $_meta = [
@@ -32,6 +33,7 @@ class Stream extends \base_core\models\Base {
 
 	protected $_actsAs = [
 		'base_core\extensions\data\behavior\Timestamp',
+		'base_core\extensions\data\behavior\Taggable',
 		'base_core\extensions\data\behavior\Searchable' => [
 			'fields' => [
 				'author',
@@ -79,7 +81,8 @@ class Stream extends \base_core\models\Base {
 				'excerpt' => $item->excerpt(),
 				'body' => $item->body(),
 				'raw' => json_encode($item->raw),
-				'published' => $item->published()
+				'published' => $item->published(),
+				'tags' => $result->tags()
 			];
 		};
 
@@ -112,7 +115,8 @@ class Stream extends \base_core\models\Base {
 				'title' => $item->title(),
 				'body' => $item->body(),
 				'raw' => json_encode($item->raw),
-				'published' => $item->published()
+				'published' => $item->published(),
+				'tags' => $result->tags()
 			];
 		};
 		foreach ($config['stream'] as $name => $search) {
@@ -137,14 +141,14 @@ class Stream extends \base_core\models\Base {
 			if ($filter && !$filter($result)) {
 				continue;
 			}
-			$item = Stream::find('first', [
+			$item = static::find('first', [
 				'conditions' => [
 					'model' => $result->model(),
 					'foreign_key' => $result->id()
 				]
 			]);
 			if (!$item) {
-				$item = Stream::create([
+				$item = static::create([
 					'model' => $result->model(),
 					'foreign_key' => $result->id(),
 

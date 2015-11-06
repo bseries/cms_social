@@ -6,6 +6,7 @@ CREATE TABLE `social_stream` (
   `title` varchar(250) DEFAULT '',
   `excerpt` varchar(250) DEFAULT NULL,
   `body` text NOT NULL,
+  `tags` varchar(250) DEFAULT NULL,
   `raw` text NOT NULL,
   `url` varchar(250) DEFAULT NULL,
   `is_published` tinyint(1) DEFAULT '0',
