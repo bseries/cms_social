@@ -9,6 +9,7 @@
 ### Added
 
 - Stream searches.
+- Tags for stream items.
 
 ### Changed
 
