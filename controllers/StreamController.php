@@ -28,6 +28,7 @@ class StreamController extends \base_core\controllers\BaseController {
 
 	use \base_core\controllers\AdminIndexTrait;
 	use \base_core\controllers\AdminPublishTrait;
+	use \base_core\controllers\AdminPromoteTrait;
 
 	public function admin_poll() {
 		extract(Message::aliases());

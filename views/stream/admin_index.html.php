@@ -34,6 +34,7 @@ $this->set([
 			<thead>
 				<tr>
 					<td data-sort="is-published" class="flag table-sort"><?= $t('publ.?') ?>
+					<td data-sort="is-promoted" class="flag table-sort"><?= $t('pro.?') ?>
 					<td data-sort="search" class="table-sort"><?= $t('Search') ?>
 					<td><?= $t('Type') ?>
 					<td data-sort="title" class="emphasize title table-sort"><?= $t('Title') . '/' . $t('Excerpt') ?>
@@ -52,6 +53,7 @@ $this->set([
 				<?php foreach ($data as $item): ?>
 				<tr>
 					<td class="flag"><i class="material-icons"><?= ($item->is_published ? 'done' : '') ?></i>
+					<td class="flag"><i class="material-icons"><?= ($item->is_promoted ? 'done' : '') ?></i>
 					<td><?= $item->search ?>
 					<td><?= $item->type() ?>
 					<td class="emphasize title"><?= $item->title ?: $item->excerpt ?>
@@ -64,7 +66,8 @@ $this->set([
 							<?= $this->date->format($item->modified, 'date') ?>
 						</time>
 					<td class="actions">
-						<?= $this->html->link($item->is_published ? $t('unpublish') : $t('publish'), ['id' => $item->id, 'action' => $item->is_published ? 'unpublish': 'publish', 'library' => 'cms_social'], ['class' => 'button']) ?>
+						<?= $this->html->link($item->is_promoted ? $t('unpromote') : $t('promote'), ['id' => $item->id, 'action' => $item->is_promoted ? 'unpromote': 'promote'], ['class' => 'button']) ?>
+						<?= $this->html->link($item->is_published ? $t('unpublish') : $t('publish'), ['id' => $item->id, 'action' => $item->is_published ? 'unpublish': 'publish'], ['class' => 'button']) ?>
 				<?php endforeach ?>
 			</tbody>
 		</table>
