@@ -10,6 +10,7 @@
 
 - Stream searches.
 - Tags for stream items.
+- Promoted stream items.
 
 ### Changed
 
