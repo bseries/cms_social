@@ -32,8 +32,9 @@ class Stream extends \base_core\models\Base {
 	];
 
 	protected $_actsAs = [
+		'base_core\extensions\data\behavior\Sluggable',
 		'base_core\extensions\data\behavior\Timestamp',
-		'base_core\extensions\data\behavior\Taggable',
+		'li3_taggable\extensions\data\behavior\Taggable',
 		'base_core\extensions\data\behavior\Searchable' => [
 			'fields' => [
 				'author',
