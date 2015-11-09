@@ -20,6 +20,7 @@ namespace cms_social\models;
 use Exception;
 use InvalidArgumentException;
 use base_core\extensions\cms\Settings;
+use base_media\models\Media;
 use base_social\models\Instagram;
 use base_social\models\Twitter;
 use lithium\util\Inflector;
@@ -32,10 +33,29 @@ class Stream extends \base_core\models\Base {
 		'source' => 'social_stream'
 	];
 
+	public $belongsTo = [
+		'CoverMedia' => [
+			'to' => 'base_media\models\Media',
+			'key' => 'cover_media_id'
+		]
+	];
+
 	protected $_actsAs = [
 		'base_core\extensions\data\behavior\Sluggable',
 		'base_core\extensions\data\behavior\Timestamp',
 		'li3_taggable\extensions\data\behavior\Taggable',
+		'base_media\extensions\data\behavior\Coupler' => [
+			'bindings' => [
+				'cover' => [
+					'type' => 'direct',
+					'to' => 'cover_media_id'
+				],
+				'media' => [
+					'type' => 'joined',
+					'to' => 'base_media\models\MediaAttachments'
+				]
+		]
+		],
 		'base_core\extensions\data\behavior\Searchable' => [
 			'fields' => [
 				'author',
@@ -89,18 +109,6 @@ class Stream extends \base_core\models\Base {
 	}
 
 	protected static function _pollTwitter(array $config) {
-		$normalize = function($item) {
-			return [
-				'author' => $item->author(),
-				'url' => $item->url(),
-				// Tweets don't have titles.
-				'body' => $item->body(),
-				'raw' => json_encode($item->raw),
-				'published' => $item->published(),
-				'tags' => $item->tags()
-			];
-		};
-
 		foreach ($config['stream'] as $name => $search) {
 			if (isset($search['author'])) {
 				$data = Twitter::allByAuthor($search['author'], $config);
@@ -113,7 +121,6 @@ class Stream extends \base_core\models\Base {
 			}
 			static::_update(
 				$data,
-				$normalize,
 				is_numeric($name) ? 'default' : $name,
 				isset($search['filter']) ? $search['filter'] : null,
 				!empty($search['autopublish'])
@@ -123,17 +130,6 @@ class Stream extends \base_core\models\Base {
 	}
 
 	protected static function _pollInstagram(array $config) {
-		$normalize = function($item) {
-			return [
-				'author' => $item->author(),
-				'url' => $item->url(),
-				'title' => $item->title(),
-				'body' => $item->body(),
-				'raw' => json_encode($item->raw),
-				'published' => $item->published(),
-				'tags' => $item->tags()
-			];
-		};
 		foreach ($config['stream'] as $name => $search) {
 			if (isset($search['author'])) {
 				$data = Instagram::allMediaByAuthor($search['author'], $config);
@@ -142,7 +138,6 @@ class Stream extends \base_core\models\Base {
 			}
 			static::_update(
 				$data,
-				$normalize,
 				is_numeric($name) ? 'default' : $name,
 				isset($search['filter']) ? $search['filter'] : null,
 				!empty($search['autopublish'])
@@ -151,7 +146,7 @@ class Stream extends \base_core\models\Base {
 		return true;
 	}
 
-	protected static function _update(array $results, $normalize, $name, $filter, $autopublish) {
+	protected static function _update(array $results, $name, $filter, $autopublish) {
 		foreach ($results as $result) {
 			if ($filter && !$filter($result)) {
 				continue;
@@ -162,6 +157,16 @@ class Stream extends \base_core\models\Base {
 					'foreign_key' => $result->id()
 				]
 			]);
+			$data = [
+				'author' => $result->author(),
+				'url' => $result->url(),
+				'title' => $result->title(),
+				'body' => $result->body(),
+				'raw' => json_encode($result->raw),
+				'published' => $result->published(),
+				'tags' => $result->tags()
+			];
+
 			if (!$item) {
 				$item = static::create([
 					'model' => $result->model(),
@@ -173,13 +178,47 @@ class Stream extends \base_core\models\Base {
 					// force manually unpublised items to become published again.
 					'is_published' => $autopublish
 				]);
+
+				// Using internal => true, to just link the main item, but
+				// make local version off it. By using the internal scheme
+				// remote provider make handlers will correctly pick it up.
+				if ($cover = $result->cover(['internal' => true])) {
+					$data['media_cover_id'] = $this->_handleMedia($cover);
+				}
+				foreach ($result->media(['internal' => true]) as $medium) {
+					$data['media'][] = $this->_handleMedia($medium);
+				}
 			}
+
 			// Always update data on items; we may have changed the method accessor return values.
-			if (!$item->save($normalize($result))) {
+			if (!$item->save($data)) {
 				return false;
 			}
 		}
 		return true;
+	}
+
+	protected function _handleTransfer($item) {
+		$file = Media::create($item);
+
+		if ($file->can('download')) {
+			$file->url = $file->download();
+		}
+		if ($file->can('transfer')) {
+			$file->url = $file->transfer();
+		}
+		try {
+			$file->save();
+			$file->makeVersions();
+		} catch (Exception $e) {
+			$message  = "Exception while saving transfer:\n";
+			$message .= "with media entity: " . var_export($file->data(), true) . "\n";
+			$message .= "exception: " . ((string) $e);
+			Logger::debug($message);
+
+			return false;
+		}
+		return $file->id;
 	}
 }
 
