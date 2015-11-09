@@ -38,7 +38,8 @@ $this->set([
 					<td data-sort="is-promoted" class="flag table-sort"><?= $t('pro.?') ?>
 					<td data-sort="search" class="table-sort"><?= $t('Search') ?>
 					<td><?= $t('Type') ?>
-					<td data-sort="title" class="emphasize title table-sort"><?= $t('Title') . '/' . $t('Excerpt') ?>
+					<td class="media">
+					<td data-sort="title" class="emphasize title table-sort"><?= $t('Title') ?>
 					<td data-sort="published" class="date published table-sort"><?= $t('Pubdate') ?>
 					<td data-sort="modified" class="date modified table-sort desc"><?= $t('Modified') ?>
 					<td class="actions">
@@ -57,7 +58,13 @@ $this->set([
 					<td class="flag"><i class="material-icons"><?= ($item->is_promoted ? 'done' : '') ?></i>
 					<td><?= $item->search ?>
 					<td><?= $item->type() ?>
-					<td class="emphasize title"><?= $item->title ?: Textual::limit(strip_tags($item->body), 20) ?>
+					<td class="media">
+						<?php if ($cover = $item->cover()): ?>
+							<?= $this->media->image($cover->version('fix3admin'), [
+								'data-media-id' => $cover->id, 'alt' => 'preview'
+							]) ?>
+						<?php endif ?>
+					<td class="emphasize title"><?= $item->title ?>
 					<td class="date published">
 						<time datetime="<?= $this->date->format($item->published, 'w3c') ?>">
 							<?= $this->date->format($item->published, 'date') ?>
