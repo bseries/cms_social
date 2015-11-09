@@ -31,13 +31,19 @@ class StreamController extends \base_core\controllers\BaseController {
 	use \base_core\controllers\AdminPromoteTrait;
 
 	public function admin_poll() {
+		set_time_limit(60 * 5);
+
 		extract(Message::aliases());
 
-		Stream::poll();
-		FlashMessage::write($t('Successfully polled.', ['scope' => 'cms_social']), [
-			'level' => 'success'
-		]);
-
+		if (Stream::poll()) {
+			FlashMessage::write($t('Successfully polled.', ['scope' => 'cms_social']), [
+				'level' => 'success'
+			]);
+		} else {
+			FlashMessage::write($t('Failed polling.', ['scope' => 'cms_social']), [
+				'level' => 'error'
+			]);
+		}
 		return $this->redirect(['action' => 'index', 'library' => 'cms_social']);
 	}
 }
