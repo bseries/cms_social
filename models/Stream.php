@@ -23,6 +23,7 @@ use base_core\extensions\cms\Settings;
 use base_media\models\Media;
 use base_social\models\Instagram;
 use base_social\models\Twitter;
+use lithium\analysis\Logger;
 use lithium\util\Inflector;
 use lithium\util\Set;
 
@@ -148,6 +149,8 @@ class Stream extends \base_core\models\Base {
 
 	protected static function _update(array $results, $name, $filter, $autopublish) {
 		foreach ($results as $result) {
+			Logger::debug('Updating stream item with model `' . $result->model() . '` id `' . $result->id() .'`.');
+
 			if ($filter && !$filter($result)) {
 				continue;
 			}
@@ -183,10 +186,10 @@ class Stream extends \base_core\models\Base {
 				// make local version off it. By using the internal scheme
 				// remote provider make handlers will correctly pick it up.
 				if ($cover = $result->cover(['internal' => true])) {
-					$data['media_cover_id'] = $this->_handleMedia($cover);
+					$data['cover_media_id'] = static::_handleMedia($cover);
 				}
 				foreach ($result->media(['internal' => true]) as $medium) {
-					$data['media'][] = $this->_handleMedia($medium);
+					$data['media'][] = static::_handleMedia($medium);
 				}
 			}
 
@@ -198,7 +201,7 @@ class Stream extends \base_core\models\Base {
 		return true;
 	}
 
-	protected function _handleTransfer($item) {
+	protected static function _handleMedia($item) {
 		$file = Media::create($item);
 
 		if ($file->can('download')) {
