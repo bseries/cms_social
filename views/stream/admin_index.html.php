@@ -1,6 +1,7 @@
 <?php
 
 use lithium\g11n\Message;
+use textual\Modulation as Textual;
 
 $t = function($message, array $options = []) {
 	return Message::translate($message, $options + ['scope' => 'cms_social', 'default' => $message]);
@@ -56,7 +57,7 @@ $this->set([
 					<td class="flag"><i class="material-icons"><?= ($item->is_promoted ? 'done' : '') ?></i>
 					<td><?= $item->search ?>
 					<td><?= $item->type() ?>
-					<td class="emphasize title"><?= $item->title ?: $item->excerpt ?>
+					<td class="emphasize title"><?= $item->title ?: Textual::limit(strip_tags($item->body), 20) ?>
 					<td class="date published">
 						<time datetime="<?= $this->date->format($item->published, 'w3c') ?>">
 							<?= $this->date->format($item->published, 'date') ?>

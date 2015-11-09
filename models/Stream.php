@@ -93,8 +93,7 @@ class Stream extends \base_core\models\Base {
 			return [
 				'author' => $item->author(),
 				'url' => $item->url(),
-				// Tweets don't have titles but excerpts.
-				'excerpt' => $item->excerpt(),
+				// Tweets don't have titles.
 				'body' => $item->body(),
 				'raw' => json_encode($item->raw),
 				'published' => $item->published(),
