@@ -54,6 +54,13 @@ class Stream extends \base_core\models\Base {
 		return str_replace('_', $separator, Inflector::underscore(Inflector::singularize($type)));
 	}
 
+	// Aliased from singular to make it similar to posts.
+	public function authors($entity, array $options = []) {
+		$options += ['serialized' => true];
+
+		return $options['serialized'] ? $entity->author : [$entity->author];
+	}
+
 	/* Polling */
 
 	public static function poll() {
