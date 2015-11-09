@@ -16,3 +16,4 @@
 
 ### Backwards Incompatible Changes
 
+- Instagram foreign key is now a shortcode instead of the numeric ID.
