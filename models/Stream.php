@@ -149,7 +149,7 @@ class Stream extends \base_core\models\Base {
 
 	protected static function _update(array $results, $name, $filter, $autopublish) {
 		foreach ($results as $result) {
-			Logger::debug('Updating stream item with model `' . $result->model() . '` id `' . $result->id() .'`.');
+			Logger::debug('Determining action for stream item with model `' . $result->model() . '` id `' . $result->id() .'`.');
 
 			if ($filter && !$filter($result)) {
 				continue;
@@ -171,6 +171,8 @@ class Stream extends \base_core\models\Base {
 			];
 
 			if (!$item) {
+				Logger::debug('Adding stream item with model `' . $result->model() . '` id `' . $result->id() .'`.');
+
 				$item = static::create([
 					'model' => $result->model(),
 					'foreign_key' => $result->id(),
@@ -191,6 +193,8 @@ class Stream extends \base_core\models\Base {
 				foreach ($result->media(['internal' => true]) as $medium) {
 					$data['media'][] = static::_handleMedia($medium);
 				}
+			} else {
+				Logger::debug('Updating stream item with model `' . $result->model() . '` id `' . $result->id() .'`.');
 			}
 
 			// Always update data on items; we may have changed the method accessor return values.
