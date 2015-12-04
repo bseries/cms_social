@@ -148,8 +148,10 @@ class Stream extends \base_core\models\Base {
 	}
 
 	protected static function _update(array $results, $name, $filter, $autopublish) {
+		Logger::debug('Determining actions for stream with ' . count($results) . ' item/s total.');
+
 		foreach ($results as $result) {
-			Logger::debug('Determining action for stream item with model `' . $result->model() . '` id `' . $result->id() .'`.');
+			// Logger::debug('Determining action for stream item with model `' . $result->model() . '` id `' . $result->id() .'`.');
 
 			if ($filter && !$filter($result)) {
 				continue;
