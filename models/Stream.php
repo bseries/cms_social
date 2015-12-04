@@ -151,11 +151,13 @@ class Stream extends \base_core\models\Base {
 		Logger::debug('Determining actions for stream with ' . count($results) . ' item/s total.');
 
 		foreach ($results as $result) {
-			// Logger::debug('Determining action for stream item with model `' . $result->model() . '` id `' . $result->id() .'`.');
+			Logger::debug('Processing stream item with model `' . $result->model() . '` id `' . $result->id() .'`.');
 
 			if ($filter && !$filter($result)) {
 				continue;
 			}
+			static::pdo()->beginTransaction();
+
 			$item = static::find('first', [
 				'conditions' => [
 					'model' => $result->model(),
@@ -173,7 +175,7 @@ class Stream extends \base_core\models\Base {
 			];
 
 			if (!$item) {
-				Logger::debug('Adding stream item with model `' . $result->model() . '` id `' . $result->id() .'`.');
+				Logger::debug('Will ADD stream item.');
 
 				$item = static::create([
 					'model' => $result->model(),
@@ -185,24 +187,40 @@ class Stream extends \base_core\models\Base {
 					// force manually unpublised items to become published again.
 					'is_published' => $autopublish
 				]);
+				try {
+					// Using internal => true, to just link the main item, but
+					// make local version off it. By using the internal scheme
+					// remote provider make handlers will correctly pick it up.
+					if ($cover = $result->cover(['internal' => true])) {
+						$data['cover_media_id'] = static::_handleMedia($cover);
+					}
+					foreach ($result->media(['internal' => true]) as $medium) {
+						$data['media'][] = static::_handleMedia($medium);
+					}
+				} catch (Exception $e) {
+					$message  = "Skipping; exception while handling media:\n";
+					$message .= "exception: " . ((string) $e);
+					Logger::debug($message);
 
-				// Using internal => true, to just link the main item, but
-				// make local version off it. By using the internal scheme
-				// remote provider make handlers will correctly pick it up.
-				if ($cover = $result->cover(['internal' => true])) {
-					$data['cover_media_id'] = static::_handleMedia($cover);
-				}
-				foreach ($result->media(['internal' => true]) as $medium) {
-					$data['media'][] = static::_handleMedia($medium);
+					static::pdo()->rollback();
+					continue;
 				}
 			} else {
-				Logger::debug('Updating stream item with model `' . $result->model() . '` id `' . $result->id() .'`.');
+				Logger::debug('Will UPDATE stream item.');
+			}
+
+			if (empty($data['url'])) { // schema requires this
+				Logger::debug('Skipping; no URL for stream item.');
+				static::pdo()->rollback();
+				continue;
 			}
 
 			// Always update data on items; we may have changed the method accessor return values.
 			if (!$item->save($data)) {
+				static::pdo()->rollback();
 				return false;
 			}
+			static::pdo()->commit();
 		}
 		return true;
 	}
@@ -216,17 +234,9 @@ class Stream extends \base_core\models\Base {
 		if ($file->can('transfer')) {
 			$file->url = $file->transfer();
 		}
-		try {
-			$file->save();
-			$file->makeVersions();
-		} catch (Exception $e) {
-			$message  = "Exception while saving transfer:\n";
-			$message .= "with media entity: " . var_export($file->data(), true) . "\n";
-			$message .= "exception: " . ((string) $e);
-			Logger::debug($message);
+		$file->save();
+		$file->makeVersions();
 
-			return false;
-		}
 		return $file->id;
 	}
 }
