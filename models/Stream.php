@@ -191,11 +191,11 @@ class Stream extends \base_core\models\Base {
 					// Using internal => true, to just link the main item, but
 					// make local version off it. By using the internal scheme
 					// remote provider make handlers will correctly pick it up.
-					if ($cover = $result->cover(['internal' => true])) {
+					if ($cover = $result->cover(['internal' => false])) {
 						$data['cover_media_id'] = static::_handleMedia($cover);
 					}
-					foreach ($result->media(['internal' => true]) as $medium) {
-						$data['media'][] = static::_handleMedia($medium);
+					foreach ($result->media(['internal' => false]) as $medium) {
+						$data['media'][] = ['id' => static::_handleMedia($medium)];
 					}
 				} catch (Exception $e) {
 					$message  = "Skipping; exception while handling media:\n";
