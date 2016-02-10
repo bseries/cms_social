@@ -22,7 +22,7 @@ use base_core\extensions\cms\Panes;
 
 extract(Message::aliases());
 
-Panes::register('external.socialStream', [
+Panes::register('cms.socialStream', [
 	'title' => $t('Social Stream', ['scope' => 'cms_social']),
 	'url' => ['controller' => 'stream', 'action' => 'index', 'library' => 'cms_social', 'admin' => true],
 	'weight' => 30
