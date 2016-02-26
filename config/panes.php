@@ -25,7 +25,7 @@ extract(Message::aliases());
 Panes::register('cms.socialStream', [
 	'title' => $t('Social Stream', ['scope' => 'cms_social']),
 	'url' => ['controller' => 'stream', 'action' => 'index', 'library' => 'cms_social', 'admin' => true],
-	'weight' => 30
+	'weight' => 45
 ]);
 
 ?>
