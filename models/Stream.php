@@ -24,7 +24,6 @@ use base_media\models\Media;
 use base_social\models\Instagram;
 use base_social\models\Twitter;
 use lithium\analysis\Logger;
-use lithium\util\Inflector;
 use lithium\util\Set;
 
 // TODO Implement Vimeo Polling and arbitrary base social sources.
@@ -42,6 +41,7 @@ class Stream extends \base_core\models\Base {
 	];
 
 	protected $_actsAs = [
+		'base_core\extensions\data\behavior\Polymorphic',
 		'base_core\extensions\data\behavior\Sluggable',
 		'base_core\extensions\data\behavior\Timestamp',
 		'li3_taggable\extensions\data\behavior\Taggable',
@@ -68,11 +68,6 @@ class Stream extends \base_core\models\Base {
 	public function raw($entity, $path) {
 		$result = json_decode($entity->raw, true);
 		return current(Set::extract($result, '/' . str_replace('.', '/', $path)));
-	}
-
-	public function type($entity, $separator = '/') {
-		list(, $type) = explode('\models\\', $entity->model);
-		return str_replace('_', $separator, Inflector::underscore(Inflector::singularize($type)));
 	}
 
 	// Aliased from singular to make it similar to posts.
@@ -238,6 +233,12 @@ class Stream extends \base_core\models\Base {
 		$file->makeVersions();
 
 		return $file->id;
+	}
+
+	// @deprecated
+	public function type($entity, $separator = '/') {
+		trigger_error(__METHOD__ . ' is deprecated in favor of polyType()', E_USER_DEPRECATED);
+		return $entity->polyType($separator);
 	}
 }
 

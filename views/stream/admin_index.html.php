@@ -57,7 +57,7 @@ $this->set([
 					<td class="flag"><i class="material-icons"><?= ($item->is_published ? 'done' : '') ?></i>
 					<td class="flag"><i class="material-icons"><?= ($item->is_promoted ? 'done' : '') ?></i>
 					<td><?= $item->search ?>
-					<td><?= $item->type() ?>
+					<td><?= $item->polyType() ?>
 					<td class="media">
 						<?php if (($cover = $item->cover()) && $cover->hasVersion('fix3admin')): ?>
 							<?= $this->media->image($cover->version('fix3admin'), [
