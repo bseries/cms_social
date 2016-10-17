@@ -146,66 +146,66 @@ class Stream extends \base_core\models\Base {
 		Logger::debug('Determining actions for stream with ' . count($results) . ' item/s total.');
 
 		foreach ($results as $result) {
-			Logger::debug('Processing stream item with model `' . $result->model() . '` id `' . $result->id() .'`.');
-
 			if ($filter && !$filter($result)) {
 				continue;
 			}
+
 			static::pdo()->beginTransaction();
 
-			$item = static::find('first', [
+			$item = static::find('count', [
 				'conditions' => [
 					'model' => $result->model(),
 					'foreign_key' => $result->id()
 				]
 			]);
+			if ($item || !($url = $result->url())) {
+				// 1. We cannot reliably determine if an update was updated upstream. Once
+				// its added to our database it stays immutable. It's assumed upstream
+				// updates rarely happen. If they happen the item can simply be deleted by
+				// the user from our DB.
+				//
+				// 2. Require URL as the schema cannot live without it.
+				static::pdo()->rollback();
+				continue;
+			}
 			$data = [
 				'author' => $result->author(),
-				'url' => $result->url(),
+				'url' => $url,
 				'title' => $result->title(),
 				'body' => $result->body(),
 				'raw' => json_encode($result->raw),
 				'published' => $result->published(),
 				'tags' => $result->tags()
 			];
+			$message  = 'Processing new stream item with model `' . $result->model() . '` id `';
+			$message .= $result->id() ."`:\n" . var_export($data, true);
+			Logger::debug($message);
 
-			if (!$item) {
-				Logger::debug('Will ADD stream item.');
+			$item = static::create([
+				'model' => $result->model(),
+				'foreign_key' => $result->id(),
 
-				$item = static::create([
-					'model' => $result->model(),
-					'foreign_key' => $result->id(),
+				'search' => $name,
 
-					'search' => $name,
-
-					// Moved here as when autopublish is enabled it would otherwise
-					// force manually unpublised items to become published again.
-					'is_published' => $autopublish
-				]);
-				try {
-					// Using internal => true, to just link the main item, but
-					// make local version off it. By using the internal scheme
-					// remote provider make handlers will correctly pick it up.
-					if ($cover = $result->cover(['internal' => false])) {
-						$data['cover_media_id'] = static::_handleMedia($cover);
-					}
-					foreach ($result->media(['internal' => false]) as $medium) {
-						$data['media'][] = ['id' => static::_handleMedia($medium)];
-					}
-				} catch (Exception $e) {
-					$message  = "Skipping; exception while handling media:\n";
-					$message .= "exception: " . ((string) $e);
-					Logger::debug($message);
-
-					static::pdo()->rollback();
-					continue;
+				// Moved here as when autopublish is enabled it would otherwise
+				// force manually unpublised items to become published again.
+				'is_published' => $autopublish
+			]);
+			try {
+				// Using internal => true, to just link the main item, but
+				// make local version off it. By using the internal scheme
+				// remote provider make handlers will correctly pick it up.
+				if ($cover = $result->cover(['internal' => false])) {
+					$data['cover_media_id'] = static::_handleMedia($cover);
 				}
-			} else {
-				Logger::debug('Will UPDATE stream item.');
-			}
+				foreach ($result->media(['internal' => false]) as $medium) {
+					$data['media'][] = ['id' => static::_handleMedia($medium)];
+				}
+			} catch (Exception $e) {
+				$message  = "Skipping; exception while handling media:\n";
+				$message .= "exception: " . ((string) $e);
+				Logger::debug($message);
 
-			if (empty($data['url'])) { // schema requires this
-				Logger::debug('Skipping; no URL for stream item.');
 				static::pdo()->rollback();
 				continue;
 			}
@@ -234,6 +234,8 @@ class Stream extends \base_core\models\Base {
 
 		return $file->id;
 	}
+
+	/* Deprecated / BC */
 
 	// @deprecated
 	public function type($entity, $separator = '/') {
