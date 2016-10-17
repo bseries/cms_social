@@ -196,10 +196,20 @@ class Stream extends \base_core\models\Base {
 				// make local version off it. By using the internal scheme
 				// remote provider make handlers will correctly pick it up.
 				if ($cover = $result->cover(['internal' => false])) {
-					$data['cover_media_id'] = static::_handleMedia($cover);
+					if (!$id = static::_handleMedia($cover)) {
+						Logger::info('Failed handling media for stream item; not adding item.');
+						static::pdo()->rollback();
+						continue;
+					}
+					$data['cover_media_id'] = $id;
 				}
 				foreach ($result->media(['internal' => false]) as $medium) {
-					$data['media'][] = ['id' => static::_handleMedia($medium)];
+					if (!$id = static::_handleMedia($medium)) {
+						Logger::info('Failed handling media for stream item; not adding item.');
+						static::pdo()->rollback();
+						continue;
+					}
+					$data['media'][] = ['id' => $id];
 				}
 			} catch (Exception $e) {
 				$message  = "Skipping; exception while handling media:\n";
@@ -229,9 +239,12 @@ class Stream extends \base_core\models\Base {
 		if ($file->can('transfer')) {
 			$file->url = $file->transfer();
 		}
-		$file->save();
-		$file->makeVersions();
-
+		if (!$file->save()) {
+			return false;
+		}
+		if (!$file->makeVersions()) {
+			return false;
+		}
 		return $file->id;
 	}
 
