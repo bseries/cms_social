@@ -239,10 +239,19 @@ class Stream extends \base_core\models\Base {
 		if ($file->can('transfer')) {
 			$file->url = $file->transfer();
 		}
+
+		// Deliberately skipping error checks in deletes, as we are failing already and do
+		// not consider a failed delete a fatal condition.
 		if (!$file->save()) {
+			// We cannot yet delete the records (it failed to save) but we will
+			// try to remove the transferred file, to not leave orphaned files.
+			$file->deleteUrl();
 			return false;
 		}
 		if (!$file->makeVersions()) {
+			// After returning false, wrapping code will cause a txn rollback. We do not
+			// "know" about that here an ensure we do not leave orphaned/unused records.
+			$file->delete();
 			return false;
 		}
 		return $file->id;
