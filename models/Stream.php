@@ -115,6 +115,12 @@ class Stream extends \base_core\models\Base {
 			} else {
 				throw new Exception('No supported stream search action found.');
 			}
+			if ($data === false) {
+				$message = 'Twitter poll failed for stream search: ' . var_export($search, true);
+				Logger::write('notice', $message);
+
+				continue;
+			}
 			static::_update(
 				$data,
 				is_numeric($name) ? 'default' : $name,
@@ -131,6 +137,12 @@ class Stream extends \base_core\models\Base {
 				$data = Instagram::allMediaByAuthor($search['author'], $config);
 			} else {
 				throw new Exception('No supported stream search action found.');
+			}
+			if ($data === false) {
+				$message = 'Instagram poll failed for stream search: ' . var_export($search, true);
+				Logger::write('notice', $message);
+
+				continue;
 			}
 			static::_update(
 				$data,
