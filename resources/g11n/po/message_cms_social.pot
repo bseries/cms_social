@@ -1,6 +1,6 @@
 # SOME DESCRIPTIVE TITLE.
 # Copyright (C) YEAR Atelier Disko
-# This file is distributed under the same license as the PACKAGE package.
+# This file is distributed under the same license as the cms_social package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 #
 #, fuzzy
@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: cms_social 1.0\n"
 "Report-Msgid-Bugs-To: info@atelierdisko.de\n"
-"POT-Creation-Date: 2015-03-18 13:22+0100\n"
+"POT-Creation-Date: 2016-11-30 14:58+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,54 +17,74 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: config/panes.php:19
+#: config/panes.php:26 config/widgets.php:29
 msgid "Social Stream"
 msgstr ""
 
-#: controllers/StreamController.php:28
+#: controllers/StreamController.php:39
 msgid "Successfully polled."
 msgstr ""
 
-#: views/stream/admin_index.html.php:12
+#: controllers/StreamController.php:43
+msgid "Failed polling."
+msgstr ""
+
+#: views/stream/admin_index.html.php:13
 msgid "social stream"
 msgstr ""
 
-#: views/stream/admin_index.html.php:29
+#: views/stream/admin_index.html.php:30
 msgid "refresh"
 msgstr ""
 
-#: views/stream/admin_index.html.php:36
+#: views/stream/admin_index.html.php:37
 msgid "publ.?"
 msgstr ""
 
-#: views/stream/admin_index.html.php:37
-msgid "Type"
-msgstr ""
-
 #: views/stream/admin_index.html.php:38
-msgid "Excerpt"
-msgstr ""
-
-#: views/stream/admin_index.html.php:38
-msgid "Title"
+msgid "pro.?"
 msgstr ""
 
 #: views/stream/admin_index.html.php:39
-msgid "Pubdate"
+msgid "Search"
 msgstr ""
 
 #: views/stream/admin_index.html.php:40
+msgid "Type"
+msgstr ""
+
+#: views/stream/admin_index.html.php:42
+msgid "Title"
+msgstr ""
+
+#: views/stream/admin_index.html.php:43
+msgid "Pubdate"
+msgstr ""
+
+#: views/stream/admin_index.html.php:44
 msgid "Modified"
 msgstr ""
 
-#: views/stream/admin_index.html.php:58
+#: views/stream/admin_index.html.php:49
+msgid "Filter"
+msgstr ""
+
+#: views/stream/admin_index.html.php:77
+msgid "promote"
+msgstr ""
+
+#: views/stream/admin_index.html.php:77
+msgid "unpromote"
+msgstr ""
+
+#: views/stream/admin_index.html.php:78
 msgid "publish"
 msgstr ""
 
-#: views/stream/admin_index.html.php:58
+#: views/stream/admin_index.html.php:78
 msgid "unpublish"
 msgstr ""
 
-#: views/stream/admin_index.html.php:63
+#: views/stream/admin_index.html.php:83
 msgid "No items available, yet."
 msgstr ""
