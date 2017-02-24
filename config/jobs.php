@@ -21,7 +21,7 @@ use base_core\async\Jobs;
 use cms_social\models\Stream;
 
 Jobs::recur('cms_social:stream', function() {
-	Stream::poll();
+	return Stream::poll();
 }, [
 	'frequency' => Jobs::FREQUENCY_MEDIUM
 ]);
