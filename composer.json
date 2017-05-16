@@ -20,8 +20,8 @@
         "composer/installers": "1.*@stable"
     },
     "repositories": [
-      { "type": "vcs", "url": "git@code.atelierdisko.de:base_core.git" },
-      { "type": "vcs", "url": "git@code.atelierdisko.de:base_social.git" },
-      { "type": "vcs", "url": "git@code.atelierdisko.de:cms_core.git" }
+      { "type": "vcs", "url": "git@code.disko.io:base_core.git" },
+      { "type": "vcs", "url": "git@code.disko.io:base_social.git" },
+      { "type": "vcs", "url": "git@code.disko.io:cms_core.git" }
     ]
 }
