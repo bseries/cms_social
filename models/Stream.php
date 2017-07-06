@@ -242,11 +242,8 @@ class Stream extends \base_core\models\Base {
 		return true;
 	}
 
-	protected static function _handleMedia($item) {
-		$file = Media::create($item);
-		// FC: source column on media may be added in 1.4 already, and will
-		//     be added in 1.5.
-		$file->source = 'stream';
+	protected static function _handleMedia(array $item) {
+		$file = Media::create(['source' => 'stream'] + $item);
 
 		if ($file->can('download')) {
 			$file->url = $file->download();
