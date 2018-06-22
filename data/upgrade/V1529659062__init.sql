@@ -17,4 +17,4 @@ CREATE TABLE `social_stream` (
   `modified` datetime NOT NULL,
   PRIMARY KEY (`id`),
   KEY `model` (`model`,`foreign_key`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB;
