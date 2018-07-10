@@ -5,9 +5,9 @@
     "license": ["BSD-3-Clause"],
     "require": {
         "php": "^5.5 || ^7.0",
-        "bseries/base_core": "1.5.*@dev",
-        "bseries/base_social": "1.5.*@dev",
-        "bseries/cms_core": "1.5.*@dev",
+        "bseries/base_core": "^1.5",
+        "bseries/base_social": "^1.5",
+        "bseries/cms_core": "^1.5",
         "atelierdisko/li3_flash_message": "1.*",
         "atelierdisko/li3_taggable": "^1.4@stable || 1.5.*@dev",
         "unionofrad/lithium": "^1.2",
