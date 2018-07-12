@@ -20,7 +20,7 @@ msgstr ""
 
 #: config/panes.php:26 config/widgets.php:29
 msgid "Social Stream"
-msgstr "Social–Stream"
+msgstr "Social-Stream"
 
 #: controllers/StreamController.php:39
 msgid "Successfully polled."
@@ -32,7 +32,7 @@ msgstr "Aktualisierung fehlgeschlagen."
 
 #: views/stream/admin_index.html.php:13
 msgid "social stream"
-msgstr "Social–Stream"
+msgstr "Social-Stream"
 
 #: views/stream/admin_index.html.php:30
 msgid "refresh"
