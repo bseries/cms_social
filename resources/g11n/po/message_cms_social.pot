@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: cms_social 1.0\n"
 "Report-Msgid-Bugs-To: info@atelierdisko.de\n"
-"POT-Creation-Date: 2016-11-30 14:58+0100\n"
+"POT-Creation-Date: 2018-07-12 12:51+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,15 +17,15 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: config/panes.php:26 config/widgets.php:29
+#: config/panes.php:18 config/widgets.php:21
 msgid "Social Stream"
 msgstr ""
 
-#: controllers/StreamController.php:39
+#: controllers/StreamController.php:31
 msgid "Successfully polled."
 msgstr ""
 
-#: controllers/StreamController.php:43
+#: controllers/StreamController.php:35
 msgid "Failed polling."
 msgstr ""
 
